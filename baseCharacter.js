@@ -4,7 +4,7 @@ class baseCharacter {
         this.angle = 0;
         this.speed = 0.5;
         this.position = createVector(x, y);
-        this.velocity = p5.Vector;
+        this.velocity = createVector(0, 0);
     } 
       
 

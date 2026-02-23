@@ -6,13 +6,17 @@ class player extends baseCharacter{
     this.y = y;
     this.size = 20;
     this.angle = 0;
-    this.velocity = createVector(0, 0);
+    this.impulse = createVector(0, 0);
     this.acceleration = createVector(0,0);
-    this.horizontalMovementForce = 0.5;
+    this.drag = 0.7;
+    this.movementPlayer = false;
   }
   
   processInput(){
-      
+    this.velocity.mult(this.drag); 
+    
+    
+    this.position.add(this.velocity);
 
     if(keyIsDown(RIGHT_ARROW)){
       // rotate the object in the direction we want it to face 
@@ -25,20 +29,33 @@ class player extends baseCharacter{
 
     if(keyIsDown(UP_ARROW)){
       console.log("up");
-      this.movement();
+      
+      this.movementPlayer = true;
     }else{
-      this.acceleration = this.horizontalMovementForce;
+      this.movementPlayer = false;
+      
+      
+    }
+
+    if(this.movementPlayer){
+      
+      this.movement();
     }
     
   }
   // move to actor
   movement(){
-    this.position.add(this.velocity);
     
-    this.velocity = p5.Vector.fromAngle(this.angle);
+    this.impulse = p5.Vector.fromAngle(this.angle);
+    this.impulse.mult(0.1);
+    console.log(this.impulse);
+    this.velocity.add(this.impulse);
+    
+
     this.screenWrap()
     
   }
+
   
   playerDisplay(){
     push()
