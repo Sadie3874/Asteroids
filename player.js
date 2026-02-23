@@ -1,11 +1,12 @@
 
 class player extends baseCharacter{
-  constructor(x, y){
-    super(x, y, 20);
+  constructor(x, y, img, imgBoost){
+    super(x, y, 20, img);
     this.x = x;
     this.y = y;
     this.size = 20;
     this.angle = 0;
+    this.imgBoost = imgBoost;
     this.impulse = createVector(0, 0);
     this.acceleration = createVector(0,0);
     this.drag = 0.7;
@@ -64,7 +65,7 @@ class player extends baseCharacter{
       // moving our rotate point to the center of our object 
       rectMode(CENTER)
       // to make the object rotate itself we need to make the points 0,0 and translate it to our desired position 
-      rect(0, 0, this.size, this.size)
+      this.img(0, 0, this.size, this.size)
     pop()
   
   }

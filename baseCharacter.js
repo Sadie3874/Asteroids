@@ -1,10 +1,11 @@
 class baseCharacter {
-    constructor(x, y, size){
+    constructor(x, y, size, img){
         this.size = size;
         this.angle = 0;
         this.speed = 0.5;
         this.position = createVector(x, y);
         this.velocity = createVector(0, 0);
+        this.img = img;
         
     } 
       
