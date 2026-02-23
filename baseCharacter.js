@@ -5,6 +5,7 @@ class baseCharacter {
         this.speed = 0.5;
         this.position = createVector(x, y);
         this.velocity = createVector(0, 0);
+        
     } 
       
 
