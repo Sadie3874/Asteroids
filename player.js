@@ -1,16 +1,18 @@
 
 class player extends baseCharacter{
-  constructor(x, y, img, imgBoost){
-    super(x, y, 20, img);
+  //, img, imgBoost
+  constructor(x, y){
+    super(x, y, 20);
     this.x = x;
     this.y = y;
     this.size = 20;
     this.angle = 0;
-    this.imgBoost = imgBoost;
+    //this.imgBoost = imgBoost;
     this.impulse = createVector(0, 0);
     this.acceleration = createVector(0,0);
-    this.drag = 0.7;
+    this.drag = 0.9;
     this.movementPlayer = false;
+    this.health = 3;
   }
   
   processInput(){
@@ -29,13 +31,10 @@ class player extends baseCharacter{
     }
 
     if(keyIsDown(UP_ARROW)){
-      console.log("up");
-      
       this.movementPlayer = true;
-    }else{
+    }
+    else{
       this.movementPlayer = false;
-      
-      
     }
 
     if(this.movementPlayer){
@@ -44,15 +43,12 @@ class player extends baseCharacter{
     }
     
   }
-  // move to actor
+
   movement(){
     
     this.impulse = p5.Vector.fromAngle(this.angle);
     this.impulse.mult(0.1);
-    console.log(this.impulse);
     this.velocity.add(this.impulse);
-    
-
     this.screenWrap()
     
   }
@@ -65,10 +61,19 @@ class player extends baseCharacter{
       // moving our rotate point to the center of our object 
       rectMode(CENTER)
       // to make the object rotate itself we need to make the points 0,0 and translate it to our desired position 
-      this.img(0, 0, this.size, this.size)
+      rect(0, 0, this.size, this.size);
+      //this.img(0, 0, this.size, this.size)
     pop()
   
   }
+
+  RemoveHealth(){
+      this.health--;
+      if(this.health <= 0){
+        
+        return true;
+      }
+    }
 
 
 }
