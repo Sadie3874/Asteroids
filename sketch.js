@@ -8,10 +8,10 @@
 
 let displayManager1;
 let player1;
-let playerShipImg;
-let playerShipBoostImg;
+
 let bullets = [];
 let asteroids = [];
+let tempAsteroidDestroy = null;
 
 let enterClicked = false;
 
@@ -43,16 +43,10 @@ function draw() {
     bullets.push(newBullet);
   }
 
+  
+
   if(bullets.length > 0){
-    for(let i = 0; i < bullets.length; i++){
-      bullets[i].movement();
-      bullets[i].spawnBullet();
-      bullets[i].lifeSpan();
-      if(bullets[i].lifeSpan() == true){
-        console.log("dead");
-        bullets.splice(i, 1);
-      }
-    }
+    bulletController();
   }
 
   for(let i = 0; i < asteroids.length; i++){
@@ -64,36 +58,32 @@ function draw() {
     invinciblePlayerTimer();
   }
   else{
-    checkCollision();
+    if(checkCollision(player1) == true){
+      asteroids.splice(tempAsteroidDestroy, 1);
+      tempAsteroidDestroy = null;
+      player1.RemoveHealth();
+      player1.resetLocation();
+      player1.invincible = true;
+    }
   }
-  
 }
+  
 function CheckCircleCircleCollision(c1x, c1y, c1r, c2x, c2y, c2r) {
-  // get distance between the circle's centers
-  // use the Pythagorean Theorem to compute the distance
   let distX = c1x - c2x;
   let distY = c1y - c2y;
-  let distance = sqrt( (distX*distX) + (distY*distY) );
+  let distance = sqrt( (distX*distX) + (distY*distY));
 
-  // if the distance is less than the sum of the circle's
-  // radii, the circles are touching!
   if (distance <= c1r+c2r) {
     return true;
   }
   return false;
 }
 
-function checkCollision(){
+function checkCollision(object){
   for(let i = 0; i < asteroids.length; i++){
-    if(CheckCircleCircleCollision(player1.position.x, player1.position.y, player1.size/2, asteroids[i].position.x, asteroids[i].position.y, asteroids[i].size/2)){
-      player1.health--;
-      player1.resetLocation();
-      player1.invincible = true;
-    
-      if(player1.health  <= 0){
-        console.log("Game Over");
-        // display game over screen 
-      }
+    if(CheckCircleCircleCollision(object.position.x, object.position.y, object.size/2, asteroids[i].position.x, asteroids[i].position.y, asteroids[i].size/2)){
+      tempAsteroidDestroy = i;
+      return true;
     }
   }
 }
@@ -108,4 +98,24 @@ function invinciblePlayerTimer(){
 
 function displayHealth(){
     displayManager1.displayPlayerLives(player1.health);
+}
+
+function bulletController(){
+  for(let i = 0; i < bullets.length; i++){
+      bullets[i].movement();
+      bullets[i].spawnBullet();
+      bullets[i].lifeSpan();
+
+      if(bullets[i].lifeSpan() == true){
+        bullets.splice(i, 1);
+        break;
+      }
+
+      if(checkCollision(bullets[i]) == true){
+        asteroids.splice(tempAsteroidDestroy, 1);
+        bullets.splice(i, 1);
+        tempAsteroidDestroy = null;
+        break;
+      }
+    }
 }

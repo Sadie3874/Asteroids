@@ -1,7 +1,8 @@
 class asteroid extends baseCharacter{
-    constructor(x, y, size){
-        super(x, y, size, 5);
+    constructor(x, y){
+        super(x, y, 30);
         this.direction = random(0, TWO_PI);
+        this.points = 20;
     }
 
     spawnAsteroid(){
@@ -15,5 +16,5 @@ class asteroid extends baseCharacter{
         this.screenWrap();
     }
 
-    
+
 }

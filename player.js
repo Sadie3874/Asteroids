@@ -91,6 +91,11 @@ class player extends baseCharacter{
   // remove player heath. 
   RemoveHealth(){
     this.health--;
+
+    if(this.health <= 0){
+        console.log("Game Over");
+        // display game over screen 
+      }
   }
 
   // teleport the player to a new location 
