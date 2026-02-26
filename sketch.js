@@ -15,7 +15,7 @@ let asteroids = [];
 let enterClicked = false;
 function preload() {
  
-  //playerShipImg = loadImage('Asteroids\Images\Ship.png');
+  //playerShipImg = loadImage('Asteroids/Images/Ship.png');
   //playerShipBoostImg = loadImage('Asteroids/Images/BoostShip.png');
 }
 function setup() {
@@ -33,7 +33,7 @@ function draw() {
   player1.processInput();
   player1.playerDisplay();
 
-  if(keyIsDown(ENTER)){
+  if(keyIsDown(32)){
     enterClicked = true;
   }
 
@@ -60,7 +60,13 @@ function draw() {
     asteroids[i].asteroidMovement();
   }
 
-  checkCollision();
+  if(player1.invincible == true){
+    invinciblePlayerTimer();
+  }
+  else{
+    checkCollision();
+  }
+  
 }
 function CheckCircleCircleCollision(c1x, c1y, c1r, c2x, c2y, c2r) {
   // get distance between the circle's centers
@@ -82,15 +88,24 @@ function checkCollision(){
     if(CheckCircleCircleCollision(player1.position.x, player1.position.y, player1.size/2, asteroids[i].position.x, asteroids[i].position.y, asteroids[i].size/2)){
       player1.health--;
       player1.resetLocation();
+      player1.invincible = true;
       if(player1.health  <= 0){
         console.log("Game Over");
         // reset player
+        // display game over screen 
       }
     }
   }
+}
+
+function invinciblePlayerTimer(){
+    if(frameCount % 240 == 0){
+      console.log("Player is no longer invincible");
+      player1.invincible = false;
+    }
+}
 
 
-  function displayHealth(){
+function displayHealth(){
     // figure out what kind of displays i want 
-  }
 }

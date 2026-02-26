@@ -14,4 +14,6 @@ class asteroid extends baseCharacter{
         this.position.add(this.velocity);
         this.screenWrap();
     }
+
+    
 }

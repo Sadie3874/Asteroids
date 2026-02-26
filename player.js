@@ -13,12 +13,12 @@ class player extends baseCharacter{
     this.drag = 0.9;
     this.movementPlayer = false;
     this.health = 3;
+    this.coolDown = false;
+    this.invincible = false;
   }
   
   processInput(){
     this.velocity.mult(this.drag); 
-    
-    
     this.position.add(this.velocity);
 
     if(keyIsDown(RIGHT_ARROW)){
@@ -41,14 +41,30 @@ class player extends baseCharacter{
       
       this.movement();
     }
-    
+
+    if(keyIsDown(ENTER) && this.coolDown == false){
+      this.boost();
+      this.coolDown = true;
+    }
+
+    if(this.coolDown){
+      this.playerTimer();
+    }
+  }
+
+  playerBoostTimer(){
+    if(frameCount % 240 == 0){
+      console.log("Cool down is done ");
+      this.coolDown = false;
+    }
   }
 
   movement(){
-    
+    // adding force and impluse to the player movement 
     this.impulse = p5.Vector.fromAngle(this.angle);
     this.impulse.mult(0.1);
     this.velocity.add(this.impulse);
+    // make sure to call screen wrap 
     this.screenWrap()
     
   }
@@ -60,21 +76,32 @@ class player extends baseCharacter{
       rotate(this.angle)
       // moving our rotate point to the center of our object 
       rectMode(CENTER)
-      // to make the object rotate itself we need to make the points 0,0 and translate it to our desired position 
-      rect(0, 0, this.size, this.size);
-      //this.img(0, 0, this.size, this.size)
+      // displaying the triangle
+      if(this.invincible == true){
+        fill(255, 0, 0);
+      }
+      else{
+        fill(255);
+      }
+      triangle(this.size/2, 0, -this.size/2, this.size/2, -this.size/2, -this.size/2);
+      //rect(0, 0, this.size, this.size);
     pop()
   
   }
 
+  // remove player heath. 
   RemoveHealth(){
     this.health--;
   }
 
+  // teleport the player to a new location 
   boost(){
-    
+    let randomX = random(0, 200);
+    let randomY = random(0, 200);
+    this.position = createVector(randomX, randomY);
   }
 
+  // upon death, move the player to the middle of the screen. 
   resetLocation(){
     this.position = createVector(200, 200);
   }

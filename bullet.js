@@ -28,4 +28,6 @@ class bullet extends baseCharacter{
             return false;
         }
     }
+
+    // add collisions 
 }
