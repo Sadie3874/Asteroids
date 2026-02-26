@@ -68,12 +68,15 @@ class player extends baseCharacter{
   }
 
   RemoveHealth(){
-      this.health--;
-      if(this.health <= 0){
-        
-        return true;
-      }
-    }
+    this.health--;
+  }
 
+  boost(){
+    
+  }
+
+  resetLocation(){
+    this.position = createVector(200, 200);
+  }
 
 }

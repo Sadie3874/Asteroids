@@ -61,10 +61,8 @@ function draw() {
   }
 
   checkCollision();
-
 }
-function circleCircle(c1x, c1y, c1r, c2x, c2y, c2r) {
-
+function CheckCircleCircleCollision(c1x, c1y, c1r, c2x, c2y, c2r) {
   // get distance between the circle's centers
   // use the Pythagorean Theorem to compute the distance
   let distX = c1x - c2x;
@@ -81,14 +79,18 @@ function circleCircle(c1x, c1y, c1r, c2x, c2y, c2r) {
 
 function checkCollision(){
   for(let i = 0; i < asteroids.length; i++){
-    if(circleCircle(player1.position.x, player1.position.y, player1.size/2, asteroids[i].position.x, asteroids[i].position.y, asteroids[i].size/2)){
-      if(player1.RemoveHealth() == true){
+    if(CheckCircleCircleCollision(player1.position.x, player1.position.y, player1.size/2, asteroids[i].position.x, asteroids[i].position.y, asteroids[i].size/2)){
+      player1.health--;
+      player1.resetLocation();
+      if(player1.health  <= 0){
         console.log("Game Over");
         // reset player
-        // player.position = createVector(200, 200);
-        // player.health = 2;
-        // restart from beginging 
       }
     }
+  }
+
+
+  function displayHealth(){
+    // figure out what kind of displays i want 
   }
 }
