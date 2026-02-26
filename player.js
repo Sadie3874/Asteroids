@@ -7,7 +7,6 @@ class player extends baseCharacter{
     this.y = y;
     this.size = 20;
     this.angle = 0;
-    //this.imgBoost = imgBoost;
     this.impulse = createVector(0, 0);
     this.acceleration = createVector(0,0);
     this.drag = 0.9;

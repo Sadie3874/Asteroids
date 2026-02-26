@@ -6,6 +6,7 @@
 // - describe what you did to take this project "above and beyond"
 
 
+let displayManager1;
 let player1;
 let playerShipImg;
 let playerShipBoostImg;
@@ -13,23 +14,22 @@ let bullets = [];
 let asteroids = [];
 
 let enterClicked = false;
-function preload() {
- 
-  //playerShipImg = loadImage('Asteroids/Images/Ship.png');
-  //playerShipBoostImg = loadImage('Asteroids/Images/BoostShip.png');
-}
+
 function setup() {
   createCanvas(400, 400);
-  // , playerShipImg, playerShipBoostImg
+
+  displayManager1 = new displayManager();
   player1 = new player(200, 200);
   asteroids.push(new asteroid(100, 100, 30));
   asteroids.push(new asteroid(200, 300, 30)); 
   asteroids.push(new asteroid(300, 100, 30)); 
   asteroids.push(new asteroid(150, 200, 30));
+  
 }
 
 function draw() {
   background(220);
+  displayHealth(player1.health);
   player1.processInput();
   player1.playerDisplay();
 
@@ -89,9 +89,9 @@ function checkCollision(){
       player1.health--;
       player1.resetLocation();
       player1.invincible = true;
+    
       if(player1.health  <= 0){
         console.log("Game Over");
-        // reset player
         // display game over screen 
       }
     }
@@ -107,5 +107,5 @@ function invinciblePlayerTimer(){
 
 
 function displayHealth(){
-    // figure out what kind of displays i want 
+    displayManager1.displayPlayerLives(player1.health);
 }
