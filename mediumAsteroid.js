@@ -1,12 +1,12 @@
-class smallAsteroid extends Asteroid{
+class mediumAsteroid extends asteroid{
     constructor(x, y){
-        super(x, y, 10);
-        this.points = 100;
+        super(x, y, 15);
+        this.points = 50;
     }
 
     movement(){
         this.velocity = p5.Vector.fromAngle(this.direction);
-        this.velocity.mult(this.speed * 2);
+        this.velocity.mult(this.speed * 1.5);
         this.position.add(this.velocity);
         this.screenWrap();
     }

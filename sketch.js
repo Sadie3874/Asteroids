@@ -18,6 +18,7 @@ let enterClicked = false;
 function setup() {
   createCanvas(400, 400);
 
+  // create a mastergame object 
   displayManager1 = new displayManager();
   player1 = new player(200, 200);
   asteroids.push(new asteroid(100, 100, 30));
@@ -112,10 +113,19 @@ function bulletController(){
       }
 
       if(checkCollision(bullets[i]) == true){
+        spawnMediumAsteroid();
         asteroids.splice(tempAsteroidDestroy, 1);
         bullets.splice(i, 1);
         tempAsteroidDestroy = null;
         break;
       }
     }
+}
+
+function spawnMediumAsteroid(){
+  let newMediumAsteroid = new mediumAsteroid(asteroids[tempAsteroidDestroy].position.x, asteroids[tempAsteroidDestroy].position.y);
+  let newMediumAsteroid2 = new mediumAsteroid(asteroids[tempAsteroidDestroy].position.x, asteroids[tempAsteroidDestroy].position.y);
+
+  asteroids.push(newMediumAsteroid);
+  asteroids.push(newMediumAsteroid2);
 }

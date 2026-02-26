@@ -47,7 +47,7 @@ class player extends baseCharacter{
     }
 
     if(this.coolDown){
-      this.playerTimer();
+      this.playerBoostTimer();
     }
   }
 
