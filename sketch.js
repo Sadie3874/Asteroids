@@ -2,6 +2,8 @@ let displayManager1;
 let gameManager1;
 let player1;
 let tempAsteroidDestroy;
+let startScreen = true;
+let gameOver = false;
 
 let enterClicked = false;
 
@@ -17,13 +19,23 @@ function setup() {
 }
 
 function draw() {
-  background(220);
-  displayHealth(player1.health);
-  player1.processInput();
-  player1.playerDisplay();
-  displayManager1.updateScore(0);
-  moveAsteroids();
 
+  if(!startScreen){
+    background(220);
+    displayHealth(player1.health);
+    player1.processInput();
+    player1.playerDisplay();
+    displayManager1.updateScore(0);
+    moveAsteroids();
+  }
+  else{
+    displayManager1.displayStartScreen();
+  }
+
+  if(gameOver == true){
+    displayManager1.displayEndScreen();
+  }
+  
   if(keyIsDown(32)){
     enterClicked = true;
   }
@@ -49,6 +61,10 @@ function draw() {
       player1.invincible = true;
     }
   }
+}
+
+function mousePressed(){
+  startScreen = false;
 }
   
 function CheckCircleCircleCollision(c1x, c1y, c1r, c2x, c2y, c2r) {

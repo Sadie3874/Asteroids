@@ -104,7 +104,7 @@ class player extends baseCharacter{
 
     if(this.health <= 0){
         console.log("Game Over");
-        // display game over screen 
+        gameOver = true;
     }
   }
 
