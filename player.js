@@ -10,6 +10,8 @@ class player extends baseCharacter{
     this.impulse = createVector(0, 0);
     this.acceleration = createVector(0,0);
     this.drag = 0.9;
+    this.knockbackForce = -10;
+    this.knockback = false;
     this.movementPlayer = false;
     this.health = 3;
     this.coolDown = false;
@@ -19,6 +21,12 @@ class player extends baseCharacter{
   processInput(){
     this.velocity.mult(this.drag); 
     this.position.add(this.velocity);
+
+    if(this.knockback == true){
+      this.impulse = p5.Vector.fromAngle(this.angle);
+      this.velocity.add(this.impulse.x * -3, this.impulse.y * -3);
+      this.knockback = false;
+    }
 
     if(keyIsDown(RIGHT_ARROW)){
       // rotate the object in the direction we want it to face 
@@ -63,6 +71,8 @@ class player extends baseCharacter{
     this.impulse = p5.Vector.fromAngle(this.angle);
     this.impulse.mult(0.1);
     this.velocity.add(this.impulse);
+
+    
     // make sure to call screen wrap 
     this.screenWrap()
     
@@ -95,7 +105,7 @@ class player extends baseCharacter{
     if(this.health <= 0){
         console.log("Game Over");
         // display game over screen 
-      }
+    }
   }
 
   // teleport the player to a new location 

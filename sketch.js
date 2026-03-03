@@ -7,12 +7,12 @@ let enterClicked = false;
 
 function setup() {
   createCanvas(400, 400);
-
+  player1 = new player(200, 200);
   // create a master game object 
   gameManager1 = new gameManager();
   gameManager1.startGame();
-  displayManager1 = new displayManager();
-  player1 = new player(200, 200);
+  displayManager1 = new displayManager(player1);
+  
 
 }
 
@@ -30,7 +30,9 @@ function draw() {
 
   if(!keyIsPressed && enterClicked){
     enterClicked = false;
+    player1.knockback = true;
     gameManager1.spawnBullet(player1.position.x, player1.position.y, player1.angle, 5);
+    
   }
 
   if(gameManager1.bulletList.length > 0){

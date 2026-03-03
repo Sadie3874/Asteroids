@@ -1,6 +1,7 @@
 class displayManager{
-    constructor(){
+    constructor(player1){
         this.score = 0;
+        this.player1 = player1;
     }
     updateScore(){
         textSize(20);
@@ -10,6 +11,10 @@ class displayManager{
 
     addScore(value){
         this.score += value;
+
+        if(this.score >= 1000 && this.player1.health < 3){
+            this.player1.health++;
+        }
     }
 
     displayPlayerLives(playerLives){
