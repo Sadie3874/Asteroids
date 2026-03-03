@@ -1,7 +1,7 @@
 let displayManager1;
 let gameManager1;
 let player1;
-let tempAsteroidDestroy = null;
+let tempAsteroidDestroy;
 
 let enterClicked = false;
 
@@ -93,18 +93,22 @@ function bulletController(){
     }
 
     if(checkCollision(gameManager1.bulletList[i], gameManager1.asteroidList) == true && tempAsteroidDestroy != null){
-      console.log(gameManager1.asteroidList[tempAsteroidDestroy].size);
-      if(gameManager1.asteroidList[tempAsteroidDestroy].size == 30){
+      console.log(tempAsteroidDestroy);
+      if(gameManager1.asteroidList[tempAsteroidDestroy].size == 40){
         gameManager1.removeLargeAsteroid(tempAsteroidDestroy);
+        displayManager1.addScore(20);
       }
-      else if(gameManager1.asteroidList[tempAsteroidDestroy].size == 23){
+      else if(gameManager1.asteroidList[tempAsteroidDestroy].size == 30){
         gameManager1.removeMediumAsteroid(tempAsteroidDestroy);
+        displayManager1.addScore(50);
+
       }
       else{
         gameManager1.removeSmallAsteroid(tempAsteroidDestroy);
+        displayManager1.addScore(100);
       }
       gameManager1.bulletList.splice(i, 1);
-      tempAsteroidDestroy = null;
+      
       break;
     }
   }

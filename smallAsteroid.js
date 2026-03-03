@@ -2,7 +2,7 @@ class smallAsteroid extends asteroid{
     constructor(x, y){
         super(x, y, 10);
         this.points = 100;
-        this.size = 10;
+        this.size = 15;
     }
 
     movement(){

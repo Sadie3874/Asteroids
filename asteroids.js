@@ -1,6 +1,6 @@
 class asteroid extends baseCharacter{
     constructor(x, y){
-        super(x, y, 30);
+        super(x, y, 40);
         this.direction = random(0, TWO_PI);
         this.points = 20;
     }
@@ -15,6 +15,4 @@ class asteroid extends baseCharacter{
         this.position.add(this.velocity);
         this.screenWrap();
     }
-
-
 }

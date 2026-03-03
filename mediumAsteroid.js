@@ -2,7 +2,7 @@ class mediumAsteroid extends asteroid{
     constructor(x, y){
         super(x, y, 15);
         this.points = 50;
-        this.size = 23;
+        this.size = 30;
     }
 
     movement(){

@@ -11,7 +11,7 @@ class gameManager{
 
     // spawn small asteroids after the medium ones 
     spawnSmallAsteroid(tempAsteroidDestroy){
-        console.log("SMALLLLLL");
+        console.log(this.asteroidList[tempAsteroidDestroy].position.x);
         this.asteroidList.push(new smallAsteroid(this.asteroidList[tempAsteroidDestroy].position.x, this.asteroidList[tempAsteroidDestroy].position.y));
         this.asteroidList.push(new smallAsteroid(this.asteroidList[tempAsteroidDestroy].position.x, this.asteroidList[tempAsteroidDestroy].position.y));
     }
@@ -28,13 +28,13 @@ class gameManager{
     }
 
     removeLargeAsteroid(tempAsteroidDestroy){
-      this.asteroidList.splice(tempAsteroidDestroy, 1);
       this.spawnMediumAsteroid(tempAsteroidDestroy);
+      this.asteroidList.splice(tempAsteroidDestroy, 1);
     }
 
     removeMediumAsteroid(tempAsteroidDestroy){
-      this.asteroidList.splice(tempAsteroidDestroy, 1);
       this.spawnSmallAsteroid(tempAsteroidDestroy);
+      this.asteroidList.splice(tempAsteroidDestroy, 1);
     }
 
     removeSmallAsteroid(tempAsteroidDestroy){
