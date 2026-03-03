@@ -2,11 +2,14 @@ class displayManager{
     constructor(){
         this.score = 0;
     }
-
-    
-
     updateScore(){
-        //update the score with the proper values 
+        textSize(20);
+        
+        text("Score: " + this.score, 300, 30);
+    }
+
+    addScore(value){
+        this.score += value;
     }
 
     displayPlayerLives(playerLives){

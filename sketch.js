@@ -1,8 +1,6 @@
 let displayManager1;
+let gameManager1;
 let player1;
-
-let bullets = [];
-//let asteroids = [];
 let tempAsteroidDestroy = null;
 
 let enterClicked = false;
@@ -23,6 +21,8 @@ function draw() {
   displayHealth(player1.health);
   player1.processInput();
   player1.playerDisplay();
+  displayManager1.updateScore(0);
+  moveAsteroids();
 
   if(keyIsDown(32)){
     enterClicked = true;
@@ -30,28 +30,18 @@ function draw() {
 
   if(!keyIsPressed && enterClicked){
     enterClicked = false;
-    let newBullet = new bullet(player1.position.x, player1.position.y, player1.angle);
-    bullets.push(newBullet);
+    gameManager1.spawnBullet(player1.position.x, player1.position.y, player1.angle, 5);
   }
 
-  
-
-  if(bullets.length > 0){
+  if(gameManager1.bulletList.length > 0){
     bulletController();
-  }
-
-  for(let i = 0; i < gameManager1.asteroidList.length; i++){
-    gameManager1.asteroidList[i].spawnAsteroid();
-    gameManager1.asteroidList[i].asteroidMovement();
   }
 
   if(player1.invincible == true){
     invinciblePlayerTimer();
   }
   else{
-    if(checkCollision(player1) == true){
-      gameManager1.asteroidList.splice(tempAsteroidDestroy, 1);
-      tempAsteroidDestroy = null;
+    if(checkCollision(player1, gameManager1.asteroidList) == true){
       player1.RemoveHealth();
       player1.resetLocation();
       player1.invincible = true;
@@ -92,22 +82,37 @@ function displayHealth(){
 }
 
 function bulletController(){
-  for(let i = 0; i < bullets.length; i++){
-      bullets[i].movement();
-      bullets[i].spawnBullet();
-      bullets[i].lifeSpan();
+  for(let i = 0; i < gameManager1.bulletList.length; i++){
+    gameManager1.bulletList[i].movement();
+    gameManager1.bulletList[i].spawnBullet();
+    gameManager1.bulletList[i].lifeSpan();
 
-      if(bullets[i].lifeSpan() == true){
-        bullets.splice(i, 1);
-        break;
-      }
+    if(gameManager1.bulletList[i].lifeSpan() == true){
+      gameManager1.bulletList.splice(i, 1);
+      break;
+    }
 
-      if(checkCollision(bullets[i]) == true){
-        gameManager1.spawnMediumAsteroid(tempAsteroidDestroy);
-        gameManager1.asteroidList.splice(tempAsteroidDestroy, 1);
-        bullets.splice(i, 1);
-        tempAsteroidDestroy = null;
-        break;
+    if(checkCollision(gameManager1.bulletList[i], gameManager1.asteroidList) == true && tempAsteroidDestroy != null){
+      console.log(gameManager1.asteroidList[tempAsteroidDestroy].size);
+      if(gameManager1.asteroidList[tempAsteroidDestroy].size == 30){
+        gameManager1.removeLargeAsteroid(tempAsteroidDestroy);
       }
+      else if(gameManager1.asteroidList[tempAsteroidDestroy].size == 23){
+        gameManager1.removeMediumAsteroid(tempAsteroidDestroy);
+      }
+      else{
+        gameManager1.removeSmallAsteroid(tempAsteroidDestroy);
+      }
+      gameManager1.bulletList.splice(i, 1);
+      tempAsteroidDestroy = null;
+      break;
+    }
+  }
+}
+
+function moveAsteroids(){
+  for(let i = 0; i < gameManager1.asteroidList.length; i++){
+    gameManager1.asteroidList[i].spawnAsteroid();
+    gameManager1.asteroidList[i].asteroidMovement();
   }
 }
