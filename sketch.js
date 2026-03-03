@@ -1,16 +1,8 @@
-// Project Title
-// Your Name
-// Date
-//
-// Extra for Experts:
-// - describe what you did to take this project "above and beyond"
-
-
 let displayManager1;
 let player1;
 
 let bullets = [];
-let asteroids = [];
+//let asteroids = [];
 let tempAsteroidDestroy = null;
 
 let enterClicked = false;
@@ -18,14 +10,12 @@ let enterClicked = false;
 function setup() {
   createCanvas(400, 400);
 
-  // create a mastergame object 
+  // create a master game object 
+  gameManager1 = new gameManager();
+  gameManager1.startGame();
   displayManager1 = new displayManager();
   player1 = new player(200, 200);
-  asteroids.push(new asteroid(100, 100, 30));
-  asteroids.push(new asteroid(200, 300, 30)); 
-  asteroids.push(new asteroid(300, 100, 30)); 
-  asteroids.push(new asteroid(150, 200, 30));
-  
+
 }
 
 function draw() {
@@ -50,9 +40,9 @@ function draw() {
     bulletController();
   }
 
-  for(let i = 0; i < asteroids.length; i++){
-    asteroids[i].spawnAsteroid();
-    asteroids[i].asteroidMovement();
+  for(let i = 0; i < gameManager1.asteroidList.length; i++){
+    gameManager1.asteroidList[i].spawnAsteroid();
+    gameManager1.asteroidList[i].asteroidMovement();
   }
 
   if(player1.invincible == true){
@@ -60,7 +50,7 @@ function draw() {
   }
   else{
     if(checkCollision(player1) == true){
-      asteroids.splice(tempAsteroidDestroy, 1);
+      gameManager1.asteroidList.splice(tempAsteroidDestroy, 1);
       tempAsteroidDestroy = null;
       player1.RemoveHealth();
       player1.resetLocation();
@@ -81,8 +71,8 @@ function CheckCircleCircleCollision(c1x, c1y, c1r, c2x, c2y, c2r) {
 }
 
 function checkCollision(object){
-  for(let i = 0; i < asteroids.length; i++){
-    if(CheckCircleCircleCollision(object.position.x, object.position.y, object.size/2, asteroids[i].position.x, asteroids[i].position.y, asteroids[i].size/2)){
+  for(let i = 0; i < gameManager1.asteroidList.length; i++){
+    if(CheckCircleCircleCollision(object.position.x, object.position.y, object.size/2, gameManager1.asteroidList[i].position.x, gameManager1.asteroidList[i].position.y, gameManager1.asteroidList[i].size/2)){
       tempAsteroidDestroy = i;
       return true;
     }
@@ -113,19 +103,11 @@ function bulletController(){
       }
 
       if(checkCollision(bullets[i]) == true){
-        spawnMediumAsteroid();
-        asteroids.splice(tempAsteroidDestroy, 1);
+        gameManager1.spawnMediumAsteroid(tempAsteroidDestroy);
+        gameManager1.asteroidList.splice(tempAsteroidDestroy, 1);
         bullets.splice(i, 1);
         tempAsteroidDestroy = null;
         break;
       }
-    }
-}
-
-function spawnMediumAsteroid(){
-  let newMediumAsteroid = new mediumAsteroid(asteroids[tempAsteroidDestroy].position.x, asteroids[tempAsteroidDestroy].position.y);
-  let newMediumAsteroid2 = new mediumAsteroid(asteroids[tempAsteroidDestroy].position.x, asteroids[tempAsteroidDestroy].position.y);
-
-  asteroids.push(newMediumAsteroid);
-  asteroids.push(newMediumAsteroid2);
+  }
 }
