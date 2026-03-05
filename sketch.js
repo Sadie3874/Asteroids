@@ -8,6 +8,10 @@ let levelSaucer = false;
 
 let enterClicked = false;
 
+function preload(){
+  //let img = loadImage('/Asteroids/Images/BoostShip.png');
+}
+
 function setup() {
   createCanvas(400, 400);
   player1 = new player(200, 200);
