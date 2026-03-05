@@ -2,6 +2,7 @@ class gameManager{
     constructor(){
         this.asteroidList = [];
         this.bulletList = [];
+        this.bulletListSaucer = [];
         this.currentSaucer;
         this.activeSaucer = false;
     }
@@ -13,7 +14,7 @@ class gameManager{
 
     // spawn small asteroids after the medium ones 
     spawnSmallAsteroid(tempAsteroidDestroy){
-        console.log(this.asteroidList[tempAsteroidDestroy].position.x);
+        
         this.asteroidList.push(new smallAsteroid(this.asteroidList[tempAsteroidDestroy].position.x, this.asteroidList[tempAsteroidDestroy].position.y));
         this.asteroidList.push(new smallAsteroid(this.asteroidList[tempAsteroidDestroy].position.x, this.asteroidList[tempAsteroidDestroy].position.y));
     }
@@ -26,7 +27,11 @@ class gameManager{
     }
 
     spawnBullet(x, y, angle, speed){
-        this.bulletList.push(new bullet(x, y, angle, speed));
+        this.bulletList.push(new bullet(x + 5, y + 5, angle, speed));
+    }
+
+    spawnSaucerBullet(x, y, angle, speed){
+        this.bulletListSaucer.push(new bullet(x + 5, y + 5, angle, speed));
     }
 
     removeLargeAsteroid(tempAsteroidDestroy){
@@ -53,5 +58,7 @@ class gameManager{
         this.currentSaucer;
         this.activeSaucer = false;
     }
+
+
 }
 

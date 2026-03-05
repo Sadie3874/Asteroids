@@ -4,6 +4,7 @@ let player1;
 let tempAsteroidDestroy;
 let startScreen = true;
 let gameOver = false;
+let levelSaucer = false;
 
 let enterClicked = false;
 
@@ -14,21 +15,59 @@ function setup() {
   gameManager1 = new gameManager();
   gameManager1.startGame();
   displayManager1 = new displayManager(player1);
-  gameManager1.spawnSaucer();
-
 }
 
 function draw() {
-
-  if(!startScreen){
+  
+  if(!startScreen && !gameOver){
     background(220);
     displayHealth(player1.health);
     player1.processInput();
     player1.playerDisplay();
     displayManager1.updateScore(0);
     moveAsteroids();
+    
+    
+    if(displayManager1.spawnSaucer() && !gameManager1.activeSaucer && !levelSaucer){
+      levelSaucer = true;
+      gameManager1.spawnSaucer();
+    }
     if(gameManager1.activeSaucer){
       moveSaucers();
+      saucerBulletController();
+    }
+
+    if(keyIsDown(32)){
+      enterClicked = true;
+    }
+
+    if(!keyIsPressed && enterClicked){
+      enterClicked = false;
+      player1.knockback = true;
+      gameManager1.spawnBullet(player1.position.x, player1.position.y, player1.angle, 5);
+
+    }
+
+    if(gameManager1.bulletList.length > 0){
+      bulletController();
+    }
+
+    if(player1.invincible == true){
+      invinciblePlayerTimer();
+    }
+    else{
+      if(checkCollision(player1)){
+          player1.RemoveHealth();
+          player1.resetLocation();
+          player1.invincible = true;
+      }
+    }
+
+    if(gameManager1.activeSaucer){
+      if(checkCollisionSaucerToAsteroid(gameManager1.currentSaucer)){
+        
+        gameManager1.removeSaucer();
+      }
     }
   }
   else{
@@ -36,34 +75,9 @@ function draw() {
   }
 
   if(gameOver == true){
-    displayManager1.displayEndScreen();
-  }
-  
-  if(keyIsDown(32)){
-    enterClicked = true;
+      displayManager1.displayEndScreen();
   }
 
-  if(!keyIsPressed && enterClicked){
-    enterClicked = false;
-    player1.knockback = true;
-    gameManager1.spawnBullet(player1.position.x, player1.position.y, player1.angle, 5);
-    
-  }
-
-  if(gameManager1.bulletList.length > 0){
-    bulletController();
-  }
-
-  if(player1.invincible == true){
-    invinciblePlayerTimer();
-  }
-  else{
-    if(checkCollision(player1, gameManager1.asteroidList) == true){
-      player1.RemoveHealth();
-      player1.resetLocation();
-      player1.invincible = true;
-    }
-  }
 }
 
 function mousePressed(){
@@ -91,17 +105,30 @@ function checkCollision(object){
   }
 }
 
-function checkCollisionSaucer(object){
 
-  if(CheckCircleCircleCollision(object.position.x, object.position.y, object.size/2, gameManager1.currentSaucer.position.x, gameManager1.currentSaucer.position.y, gameManager1.currentSaucer.size/2)){
-    console.log("Collided");
+function checkCollisionSaucerToAsteroid(){
+  for(let i = 0; i < gameManager1.asteroidList.length; i++){
+    if(CheckCircleCircleCollision(gameManager1.currentSaucer.currentPosition, 70, gameManager1.currentSaucer.size/2, gameManager1.asteroidList[i].position.x, gameManager1.asteroidList[i].position.y, gameManager1.asteroidList[i].size/2)){
       return true;
+    }
+  }
+}
+
+function checkCollisionSaucer(object){
+  if(CheckCircleCircleCollision(object.position.x, object.position.y, object.size/2, gameManager1.currentSaucer.currentPosition, 70, gameManager1.currentSaucer.size/2)){
+    return true;
+  }
+}
+
+function checkSaucerBulletCollision(object){
+  if(CheckCircleCircleCollision(object.position.x, object.position.y, object.size/2, player1.position.x, player1.position.y, player1.size/2)){
+    console.log("Hit player");
+    return true;
   }
 }
 
 function invinciblePlayerTimer(){
     if(frameCount % 240 == 0){
-      console.log("Player is no longer invincible");
       player1.invincible = false;
     }
 }
@@ -113,12 +140,6 @@ function displayHealth(){
 
 function bulletController(){
   for(let i = 0; i < gameManager1.bulletList.length; i++){
-    if(gameManager1.activeSaucer){
-      if(checkCollisionSaucer(gameManager1.bulletList[i])){
-        gameManager1.removeSaucer();
-      }
-    }
-    
     gameManager1.bulletList[i].movement();
     gameManager1.bulletList[i].spawnBullet();
     gameManager1.bulletList[i].lifeSpan();
@@ -128,7 +149,15 @@ function bulletController(){
       break;
     }
 
-    if(checkCollision(gameManager1.bulletList[i], gameManager1.asteroidList) && tempAsteroidDestroy != null){
+    if(gameManager1.activeSaucer){
+      if(checkCollisionSaucer(gameManager1.bulletList[i])){
+        gameManager1.removeSaucer();
+        displayManager1.addScore(200);
+      }
+    }
+    
+
+    if(checkCollision(gameManager1.bulletList[i]) && tempAsteroidDestroy != null){
       if(gameManager1.asteroidList[tempAsteroidDestroy].size == 40){
         gameManager1.removeLargeAsteroid(tempAsteroidDestroy);
         displayManager1.addScore(20);
@@ -145,6 +174,41 @@ function bulletController(){
       gameManager1.bulletList.splice(i, 1);
       break;
     }
+  }
+}
+
+function saucerBulletController(){
+  for(let i = 0; i < gameManager1.bulletListSaucer.length; i++){
+    gameManager1.bulletListSaucer[i].movement();
+    gameManager1.bulletListSaucer[i].spawnBullet();
+    gameManager1.bulletListSaucer[i].lifeSpan();
+
+    if(gameManager1.bulletListSaucer[i].lifeSpan()){
+      gameManager1.bulletListSaucer.splice(i, 1);
+      break;
+    }
+
+   if(checkSaucerBulletCollision(gameManager1.bulletListSaucer[i])){
+      gameManager1.bulletListSaucer.splice(i, 1);
+      player1.RemoveHealth();
+      player1.resetLocation();
+      player1.invincible = true;
+      break;
+   }
+
+   if(checkCollision(gameManager1.bulletListSaucer[i]) && tempAsteroidDestroy != null){
+     if(gameManager1.asteroidList[tempAsteroidDestroy].size == 40){
+       gameManager1.removeLargeAsteroid(tempAsteroidDestroy);
+     }
+     else if(gameManager1.asteroidList[tempAsteroidDestroy].size == 30){
+       gameManager1.removeMediumAsteroid(tempAsteroidDestroy);
+     }
+     else{
+       gameManager1.removeSmallAsteroid(tempAsteroidDestroy);
+     }
+     gameManager1.bulletListSaucer.splice(i, 1);
+     break;
+   }
   }
 }
 

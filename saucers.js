@@ -5,14 +5,13 @@ class saucers extends baseCharacter{
         this.points = 200;
         this.MoveLeft = false;
         this.currentPosition = 0;
-        this.fireTimer = 150;
+        this.fireTimer = 5;
         
     }
 
     movement(){
         if(!this.MoveLeft){
             this.currentPosition++;
-            console.log("moving right");
         }
         else{
             this.currentPosition--;
@@ -23,7 +22,7 @@ class saucers extends baseCharacter{
             translate(this.currentPosition, 70);
         pop()
 
-        if(this.currentPosition >= 400){
+        if(this.currentPosition >= width){
             this.MoveLeft = true;
         }
         
@@ -37,7 +36,8 @@ class saucers extends baseCharacter{
     fireBullet(){
         this.fireTimer--;
         if(this.fireTimer <= 0){
-            gameManager1.spawnBullet(this.currentPosition, 70, HALF_PI, 5);
+            
+            gameManager1.spawnSaucerBullet(this.currentPosition + 5, 70, HALF_PI, 5);
             this.fireTimer = 150;
         }
     }

@@ -17,6 +17,12 @@ class displayManager{
         }
     }
 
+    spawnSaucer(){
+        if(this.score >= 700){
+            return true;
+        }
+    }
+
     displayPlayerLives(playerLives){
         for(let i = 0; i < playerLives; i++){
             triangle(20 + (i * 20), 20, 10 + (i * 20), 30, 30 + (i * 20), 30);
