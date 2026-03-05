@@ -2,7 +2,8 @@ class gameManager{
     constructor(){
         this.asteroidList = [];
         this.bulletList = [];
-        this.saucerList = [];
+        this.currentSaucer;
+        this.activeSaucer = false;
     }
 
     spawnMediumAsteroid(tempAsteroidDestroy){
@@ -44,7 +45,13 @@ class gameManager{
 
     // call when player reaches certin score 
     spawnSaucer(){
-        this.saucerList.push(new saucers(0, 70));
+        this.currentSaucer = new saucers(0, 70);
+        this.activeSaucer = true;
+    }
+
+    removeSaucer(){
+        this.currentSaucer;
+        this.activeSaucer = false;
     }
 }
 

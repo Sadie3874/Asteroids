@@ -71,11 +71,8 @@ class player extends baseCharacter{
     this.impulse = p5.Vector.fromAngle(this.angle);
     this.impulse.mult(0.1);
     this.velocity.add(this.impulse);
-
-    
     // make sure to call screen wrap 
     this.screenWrap()
-    
   }
 
   

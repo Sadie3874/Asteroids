@@ -27,7 +27,9 @@ function draw() {
     player1.playerDisplay();
     displayManager1.updateScore(0);
     moveAsteroids();
-    moveSaucers();
+    if(gameManager1.activeSaucer){
+      moveSaucers();
+    }
   }
   else{
     displayManager1.displayStartScreen();
@@ -89,6 +91,14 @@ function checkCollision(object){
   }
 }
 
+function checkCollisionSaucer(object){
+
+  if(CheckCircleCircleCollision(object.position.x, object.position.y, object.size/2, gameManager1.currentSaucer.position.x, gameManager1.currentSaucer.position.y, gameManager1.currentSaucer.size/2)){
+    console.log("Collided");
+      return true;
+  }
+}
+
 function invinciblePlayerTimer(){
     if(frameCount % 240 == 0){
       console.log("Player is no longer invincible");
@@ -103,6 +113,12 @@ function displayHealth(){
 
 function bulletController(){
   for(let i = 0; i < gameManager1.bulletList.length; i++){
+    if(gameManager1.activeSaucer){
+      if(checkCollisionSaucer(gameManager1.bulletList[i])){
+        gameManager1.removeSaucer();
+      }
+    }
+    
     gameManager1.bulletList[i].movement();
     gameManager1.bulletList[i].spawnBullet();
     gameManager1.bulletList[i].lifeSpan();
@@ -112,8 +128,7 @@ function bulletController(){
       break;
     }
 
-    if(checkCollision(gameManager1.bulletList[i], gameManager1.asteroidList) == true && tempAsteroidDestroy != null){
-      console.log(tempAsteroidDestroy);
+    if(checkCollision(gameManager1.bulletList[i], gameManager1.asteroidList) && tempAsteroidDestroy != null){
       if(gameManager1.asteroidList[tempAsteroidDestroy].size == 40){
         gameManager1.removeLargeAsteroid(tempAsteroidDestroy);
         displayManager1.addScore(20);
@@ -128,7 +143,6 @@ function bulletController(){
         displayManager1.addScore(100);
       }
       gameManager1.bulletList.splice(i, 1);
-      
       break;
     }
   }
@@ -142,7 +156,5 @@ function moveAsteroids(){
 }
 
 function moveSaucers(){
-  for(let i = 0; i < gameManager1.saucerList.length; i++){
-    gameManager1.saucerList[i].movement();
-  }
+  gameManager1.currentSaucer.movement();
 }
