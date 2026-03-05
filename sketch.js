@@ -14,7 +14,7 @@ function setup() {
   gameManager1 = new gameManager();
   gameManager1.startGame();
   displayManager1 = new displayManager(player1);
-  
+  gameManager1.spawnSaucer();
 
 }
 
@@ -27,6 +27,7 @@ function draw() {
     player1.playerDisplay();
     displayManager1.updateScore(0);
     moveAsteroids();
+    moveSaucers();
   }
   else{
     displayManager1.displayStartScreen();
@@ -66,7 +67,8 @@ function draw() {
 function mousePressed(){
   startScreen = false;
 }
-  
+
+// change vars 
 function CheckCircleCircleCollision(c1x, c1y, c1r, c2x, c2y, c2r) {
   let distX = c1x - c2x;
   let distY = c1y - c2y;
@@ -136,5 +138,11 @@ function moveAsteroids(){
   for(let i = 0; i < gameManager1.asteroidList.length; i++){
     gameManager1.asteroidList[i].spawnAsteroid();
     gameManager1.asteroidList[i].asteroidMovement();
+  }
+}
+
+function moveSaucers(){
+  for(let i = 0; i < gameManager1.saucerList.length; i++){
+    gameManager1.saucerList[i].movement();
   }
 }
