@@ -5,11 +5,21 @@ let tempAsteroidDestroy;
 let startScreen = true;
 let gameOver = false;
 let levelSaucer = false;
+let backgroundMusic;
+let boostSound;
+let hyperDrive;
+let playerShoot;
+let enemySaucerSound;
 
 let enterClicked = false;
 
 function preload(){
   //let img = loadImage('/Asteroids/Images/BoostShip.png');
+  backgroundMusic = loadSound("/Asteroids/Audio/BackgroundMusic.mp3");
+  boostSound = loadSound("/Asteroids/Audio/Boost.mp3");
+  hyperDrive = loadSound("/Asteroids/Audio/HyperDriveJump.mp3");
+  playerShoot = loadSound("/Asteroids/Audio/PlayerShoot.mp3");
+  enemySaucerSound = loadSound("/Asteroids/Audio/SaucerPresent.mp3");
 }
 
 function setup() {
@@ -19,11 +29,14 @@ function setup() {
   gameManager1 = new gameManager();
   gameManager1.startGame();
   displayManager1 = new displayManager(player1);
+        gameManager1.spawnSaucer();
+
 }
 
 function draw() {
   
   if(!startScreen && !gameOver){
+    //backgroundMusic.loadSound();
     background(220);
     displayHealth(player1.health);
     player1.processInput();
@@ -35,7 +48,9 @@ function draw() {
     if(displayManager1.spawnSaucer() && !gameManager1.activeSaucer && !levelSaucer){
       levelSaucer = true;
       gameManager1.spawnSaucer();
+      
     }
+    
     if(gameManager1.activeSaucer){
       moveSaucers();
       saucerBulletController();
@@ -56,7 +71,7 @@ function draw() {
       bulletController();
     }
 
-    if(player1.invincible == true){
+    if(player1.invincible){
       invinciblePlayerTimer();
     }
     else{
@@ -78,14 +93,21 @@ function draw() {
     displayManager1.displayStartScreen();
   }
 
-  if(gameOver == true){
+  if(gameOver){
       displayManager1.displayEndScreen();
+      backgroundMusic.stop();
   }
 
 }
 
 function mousePressed(){
   startScreen = false;
+  backgroundMusic.loop();
+  
+}
+
+function playSound(sound){
+  sound.play();
 }
 
 // change vars 
@@ -148,7 +170,7 @@ function bulletController(){
     gameManager1.bulletList[i].spawnBullet();
     gameManager1.bulletList[i].lifeSpan();
 
-    if(gameManager1.bulletList[i].lifeSpan() == true){
+    if(gameManager1.bulletList[i].lifeSpan()){
       gameManager1.bulletList.splice(i, 1);
       break;
     }
