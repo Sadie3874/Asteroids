@@ -12,6 +12,7 @@ let enemySaucerSound;
 let maxAngle = 40;
 let maxOffset = 10;
 let shake = 15;
+let restart;
 
 let enterClicked = false;
 
@@ -31,10 +32,14 @@ function setup() {
   gameManager1 = new gameManager();
   gameManager1.startLevel(4);
   displayManager1 = new displayManager(player1);
+  restart = createButton("restart");
+  restart.mousePressed(restartPlayer);
 }
 
 function draw() {
   gameManager1.nextLevel();
+
+  
   if(!startScreen && !gameOver){
     //backgroundMusic.loadSound();
     background(220);
@@ -98,6 +103,13 @@ function draw() {
       backgroundMusic.stop();
   }
 
+}
+
+function restartPlayer(){
+  player1.health = 3;
+  displayManager1.score = 0;
+  player1.resetLocation();
+  gameManager1.resetAsteroids();
 }
 
 function mousePressed(){

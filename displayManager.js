@@ -18,7 +18,8 @@ class displayManager{
     }
 
     canSpawnSaucer(){
-        if(this.score % 500 == 10){
+        // fix this, have it for every 1000 points 
+        if(this.score % 1000 == 1){
             return true;
         }
     }
