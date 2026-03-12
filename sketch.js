@@ -1,4 +1,3 @@
-let displayManager1;
 let gameManager1;
 let player1;
 let tempAsteroidDestroy;
@@ -10,16 +9,19 @@ let boostSound;
 let hyperDrive;
 let playerShoot;
 let enemySaucerSound;
+let maxAngle = 40;
+let maxOffset = 10;
+let shake = 15;
 
 let enterClicked = false;
 
 function preload(){
   //let img = loadImage('/Asteroids/Images/BoostShip.png');
-  backgroundMusic = loadSound("/Asteroids/Audio/BackgroundMusic.mp3");
-  boostSound = loadSound("/Asteroids/Audio/Boost.mp3");
-  hyperDrive = loadSound("/Asteroids/Audio/HyperDriveJump.mp3");
-  playerShoot = loadSound("/Asteroids/Audio/PlayerShoot.mp3");
-  enemySaucerSound = loadSound("/Asteroids/Audio/SaucerPresent.mp3");
+  //backgroundMusic = loadSound("/Asteroids/Audio/BackgroundMusic.mp3");
+  //boostSound = loadSound("/Asteroids/Audio/Boost.mp3");
+  //hyperDrive = loadSound("/Asteroids/Audio/HyperDriveJump.mp3");
+  //playerShoot = loadSound("/Asteroids/Audio/PlayerShoot.mp3");
+  //enemySaucerSound = loadSound("/Asteroids/Audio/SaucerPresent.mp3");
 }
 
 function setup() {
@@ -29,8 +31,6 @@ function setup() {
   gameManager1 = new gameManager();
   gameManager1.startGame();
   displayManager1 = new displayManager(player1);
-        gameManager1.spawnSaucer();
-
 }
 
 function draw() {
@@ -247,4 +247,13 @@ function moveAsteroids(){
 
 function moveSaucers(){
   gameManager1.currentSaucer.movement();
+}
+
+function cameraShake(){
+  let angle = maxAngle * shake * random(-1, 1);
+  let OffSetX = maxOffset * shake * random(-1, 1);
+  let offSetY = maxOffset * shake * random(-1, 1);
+
+  Camera.angle = Camera.angle + angle;
+  // camera.center = Camera.center + Vec2(offsetx, offestY)
 }
