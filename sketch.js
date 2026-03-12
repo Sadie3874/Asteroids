@@ -34,6 +34,9 @@ function setup() {
   displayManager1 = new displayManager(player1);
   restart = createButton("restart");
   restart.mousePressed(restartPlayer);
+
+  let startButton = createButton("Start");
+  startButton.mouseClicked(startGame);
 }
 
 function draw() {
@@ -96,11 +99,12 @@ function draw() {
   }
   else{
     displayManager1.displayStartScreen();
+    
   }
 
   if(gameOver){
       displayManager1.displayEndScreen();
-      backgroundMusic.stop();
+      //backgroundMusic.stop();
   }
 
 }
@@ -110,12 +114,14 @@ function restartPlayer(){
   displayManager1.score = 0;
   player1.resetLocation();
   gameManager1.resetAsteroids();
+  if(gameOver){
+    gameOver = false;
+  }
 }
 
-function mousePressed(){
+function startGame(){
   startScreen = false;
   //backgroundMusic.loop();
-  
 }
 
 function playSound(sound){

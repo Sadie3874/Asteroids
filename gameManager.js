@@ -76,6 +76,9 @@ class gameManager{
         for(let i = 0; i < this.asteroidList.length; i++){
             this.asteroidList.splice(this.asteroidList[i])
         }
+        if(this.activeSaucer){
+            this.removeSaucer();
+        }
         this.currentAmountOfAsteroids = 4
         this.startLevel(4);
         this.reset = false;
