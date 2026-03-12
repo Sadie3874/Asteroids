@@ -5,6 +5,8 @@ class gameManager{
         this.bulletListSaucer = [];
         this.currentSaucer;
         this.activeSaucer = false;
+        this.level = 1;
+        this.currentAmountOfAsteroids = 4
     }
 
     spawnMediumAsteroid(tempAsteroidDestroy){
@@ -19,11 +21,10 @@ class gameManager{
         this.asteroidList.push(new smallAsteroid(this.asteroidList[tempAsteroidDestroy].position.x, this.asteroidList[tempAsteroidDestroy].position.y));
     }
 
-    startGame(){
-        this.asteroidList.push(new asteroid(100, 100, 30));
-        this.asteroidList.push(new asteroid(200, 300, 30)); 
-        this.asteroidList.push(new asteroid(300, 100, 30)); 
-        this.asteroidList.push(new asteroid(150, 200, 30));
+    startLevel(amountOfAsteroids){
+        for(let i = 0; i <= amountOfAsteroids; i++){
+            this.asteroidList.push(new asteroid(random(100, 300), random(100, 300), 30));
+        }
     }
 
     spawnBullet(x, y, angle, speed){
@@ -59,6 +60,15 @@ class gameManager{
         this.activeSaucer = false;
     }
 
+    nextLevel(){
+        if(this.asteroidList.length <= 0){
+            this.currentAmountOfAsteroids = this.currentAmountOfAsteroids + 2;
+            this.level++;
+            console.log(this.level);
+            this.startLevel(this.currentAmountOfAsteroids);
+            this.activeSauce = false;
+        }
+    }
 
 }
 

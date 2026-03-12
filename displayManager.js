@@ -17,8 +17,8 @@ class displayManager{
         }
     }
 
-    spawnSaucer(){
-        if(this.score >= 700){
+    canSpawnSaucer(){
+        if(this.score % 500 == 10){
             return true;
         }
     }

@@ -29,12 +29,12 @@ function setup() {
   player1 = new player(200, 200);
   // create a master game object 
   gameManager1 = new gameManager();
-  gameManager1.startGame();
+  gameManager1.startLevel(4);
   displayManager1 = new displayManager(player1);
 }
 
 function draw() {
-  
+  gameManager1.nextLevel();
   if(!startScreen && !gameOver){
     //backgroundMusic.loadSound();
     background(220);
@@ -45,7 +45,7 @@ function draw() {
     moveAsteroids();
     
     
-    if(displayManager1.spawnSaucer() && !gameManager1.activeSaucer && !levelSaucer){
+    if(displayManager1.canSpawnSaucer() && !gameManager1.activeSaucer && !levelSaucer){
       levelSaucer = true;
       gameManager1.spawnSaucer();
       
@@ -102,7 +102,7 @@ function draw() {
 
 function mousePressed(){
   startScreen = false;
-  backgroundMusic.loop();
+  //backgroundMusic.loop();
   
 }
 
