@@ -15,6 +15,7 @@ let enemySaucerSound;
 let restart;
 let startButton;
 let clickedRestart = false;
+let slider;
 
 let enterClicked = false;
 
@@ -37,17 +38,19 @@ function setup() {
   startButton.position(width/2 - 50, width/2 + 30);
   startButton.size(100, 30);
   startButton.mouseClicked(startGame);
-  backgroundMusic.setVolume(0.1);
 
+  
   restart = createButton("restart");
   restart.mousePressed(restartPlayer);
-  restart.position(0,width - 30)
   restart.size(100, 30);
-
+  slider = createSlider(0, 10);
+  slider.position(50, 450)
+  //text("Volume:", 0, 450)
 }
 
 function draw() {
-  
+  backgroundMusic.setVolume(slider.value()/15);
+
   if(!startScreen && !gameOver){
     background(0);
     startButton.remove();
