@@ -9,11 +9,12 @@ let boostSound;
 let hyperDrive;
 let playerShoot;
 let enemySaucerSound;
-let maxAngle = 40;
-let maxOffset = 10;
-let shake = 15;
+// let maxAngle = 40;
+// let maxOffset = 10;
+// let shake = 15;
 let restart;
 let startButton;
+let clickedRestart = false;
 
 let enterClicked = false;
 
@@ -31,14 +32,18 @@ function setup() {
   gameManager1 = new gameManager();
   gameManager1.startLevel(4);
   displayManager1 = new displayManager(player1);
-  restart = createButton("restart");
-  restart.mousePressed(restartPlayer);
+
   startButton = createButton("Start");
   startButton.position(width/2 - 50, width/2 + 30);
   startButton.size(100, 30);
   startButton.mouseClicked(startGame);
   backgroundMusic.setVolume(0.1);
- 
+
+  restart = createButton("restart");
+  restart.mousePressed(restartPlayer);
+  restart.position(0,width - 30)
+  restart.size(100, 30);
+
 }
 
 function draw() {
@@ -46,6 +51,7 @@ function draw() {
   if(!startScreen && !gameOver){
     background(0);
     startButton.remove();
+    
     gameManager1.nextLevel();
     displayHealth(player1.health);
     player1.processInput();
@@ -105,12 +111,19 @@ function draw() {
 
   if(gameOver){
       displayManager1.displayEndScreen();
+      clickedRestart = true;
       backgroundMusic.stop();
+
   }
 
 }
 
 function restartPlayer(){
+  if(player.invincible){
+    invincible = false;
+  }
+  clickedRestart = false;
+  backgroundMusic.loop();
   player1.health = 3;
   displayManager1.score = 0;
   player1.resetLocation();
