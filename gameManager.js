@@ -83,5 +83,11 @@ class gameManager{
         this.startLevel(4);
         this.reset = false;
     }
+
+    
+    playSound(sound){
+      sound.play();
+    }
+
 }
 

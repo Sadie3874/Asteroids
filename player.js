@@ -84,7 +84,7 @@ class player extends baseCharacter{
       rectMode(CENTER)
       // displaying the triangle
       if(this.invincible == true){
-        fill(255, 0, 0);
+        fill(0, 255, 0);
       }
       else{
         fill(255);

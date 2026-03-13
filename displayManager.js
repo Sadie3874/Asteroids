@@ -3,9 +3,10 @@ class displayManager{
         this.score = 0;
         this.player1 = player1;
     }
+
     updateScore(){
         textSize(20);
-        
+        fill(255)
         text("Score: " + this.score, 300, 30);
     }
 
@@ -33,9 +34,9 @@ class displayManager{
     displayStartScreen(){
         push();
             background(0);
-            textSize(30);
+            textSize(45);
             fill(255);
-            text("Press Enter to Start", 80, 200);
+            text("Asteroids", 100, 200);
         pop();
     }
 

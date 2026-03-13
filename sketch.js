@@ -13,39 +13,40 @@ let maxAngle = 40;
 let maxOffset = 10;
 let shake = 15;
 let restart;
+let startButton;
 
 let enterClicked = false;
 
 function preload(){
-  //let img = loadImage('/Asteroids/Images/BoostShip.png');
-  //backgroundMusic = loadSound("/Asteroids/Audio/BackgroundMusic.mp3");
-  //boostSound = loadSound("/Asteroids/Audio/Boost.mp3");
-  //hyperDrive = loadSound("/Asteroids/Audio/HyperDriveJump.mp3");
-  //playerShoot = loadSound("/Asteroids/Audio/PlayerShoot.mp3");
-  //enemySaucerSound = loadSound("/Asteroids/Audio/SaucerPresent.mp3");
+  backgroundMusic = loadSound("/Asteroids/Audio/BackgroundMusic.mp3");
+  boostSound = loadSound("/Asteroids/Audio/Boost.mp3");
+  hyperDrive = loadSound("/Asteroids/Audio/HyperDriveJump.mp3");
+  playerShoot = loadSound("/Asteroids/Audio/PlayerShoot.mp3");
+  enemySaucerSound = loadSound("/Asteroids/Audio/SaucerPresent.mp3");
 }
 
 function setup() {
   createCanvas(400, 400);
   player1 = new player(200, 200);
-  // create a master game object 
   gameManager1 = new gameManager();
   gameManager1.startLevel(4);
   displayManager1 = new displayManager(player1);
   restart = createButton("restart");
   restart.mousePressed(restartPlayer);
-
-  let startButton = createButton("Start");
+  startButton = createButton("Start");
+  startButton.position(width/2 - 50, width/2 + 30);
+  startButton.size(100, 30);
   startButton.mouseClicked(startGame);
+  backgroundMusic.setVolume(0.1);
+ 
 }
 
 function draw() {
-  gameManager1.nextLevel();
-
   
   if(!startScreen && !gameOver){
-    //backgroundMusic.loadSound();
-    background(220);
+    background(0);
+    startButton.remove();
+    gameManager1.nextLevel();
     displayHealth(player1.health);
     player1.processInput();
     player1.playerDisplay();
@@ -104,7 +105,7 @@ function draw() {
 
   if(gameOver){
       displayManager1.displayEndScreen();
-      //backgroundMusic.stop();
+      backgroundMusic.stop();
   }
 
 }
@@ -121,11 +122,10 @@ function restartPlayer(){
 
 function startGame(){
   startScreen = false;
-  //backgroundMusic.loop();
 }
 
-function playSound(sound){
-  sound.play();
+function mouseClicked(){
+  backgroundMusic.loop();
 }
 
 // change vars 

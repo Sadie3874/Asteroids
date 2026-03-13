@@ -18,6 +18,7 @@ class saucers extends baseCharacter{
         }
 
         push()
+            fill(255, 0, 0);
             circle(this.currentPosition, 70, 40);
             ellipse(this.currentPosition, 70, 80, 20)
             translate(this.currentPosition, 70);
