@@ -1,3 +1,16 @@
+// The creation of asteroids was a lot more pleasant than I thought it would be. At first all the tasks seemed impossible, 
+// however when I started ticking off the boxes it felt rewarding and encouraged me to push further. As the weeks went on,
+// I slowly started to see the project grow. However, while the program grew so did my problems. One of the main issues I had were collisions. 
+// Collisions needed to be called from ‘draw ()’ always, however I needed to check lists of objects like asteroids or bullets. 
+// So, I needed a collision function with a ‘for loop’. This would check for player or bullet position with asteroid positions. 
+// When it came to implement the saucer, I only had 1 object so I couldn’t go through a for loop but instead the if statement.
+// So, I created another function that removed the ‘for’ loop. At the time I didn’t realize by saucer implementation was slightly
+// different from the player, and in JavaScript fashion, the program didn’t warn me of this error. So, it took me a while to figure out
+// why my collisions weren’t working. When I finally realized, I had to create a whole separate function for the saucers specific position values. 
+// The same thing had to be done with saucer and asteroid collision. If I had more time, I would love to clean it up and make a more modular system. 
+// Overall, I enjoyed this project a lot more than I thought I would. At first the work seemed overwhelming and paralyzing, 
+// but it slowly grew into a project that I was happy to work on throughout the week. 
+
 let gameManager1;
 let player1;
 let tempAsteroidDestroy;
