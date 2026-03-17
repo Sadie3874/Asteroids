@@ -112,7 +112,6 @@ function draw() {
     else{
       if(checkCollision(player1)){
         cameraShake();
-        
         player1.RemoveHealth();
         player1.resetLocation();
         player1.invincible = true;

@@ -8,8 +8,8 @@ class gameManager{
         this.level = 1;
         this.currentAmountOfAsteroids = 4
         this.reset = false;
-        this.saucerSound = loadSound("/Asteroids/Audio/SaucerPresent.mp3");
         this.soundPlaying = false;
+        this.saucerSound = loadSound("/Asteroids/Audio/SaucerPresent.mp3");
         this.playerShoot = loadSound("/Asteroids/Audio/PlayerShoot.mp3");
         this.deathSound = loadSound("/Asteroids/Audio/Explosion.mp3")
     }
@@ -21,14 +21,13 @@ class gameManager{
 
     // spawn small asteroids after the medium ones 
     spawnSmallAsteroid(tempAsteroidDestroy){
-        
         this.asteroidList.push(new smallAsteroid(this.asteroidList[tempAsteroidDestroy].position.x, this.asteroidList[tempAsteroidDestroy].position.y));
         this.asteroidList.push(new smallAsteroid(this.asteroidList[tempAsteroidDestroy].position.x, this.asteroidList[tempAsteroidDestroy].position.y));
     }
 
     startLevel(amountOfAsteroids){
         for(let i = 0; i < amountOfAsteroids; i++){
-            this.asteroidList.push(new asteroid(random(100, 300), random(100, 300), 30));
+            this.asteroidList.push(new asteroid(random(100, 400), random(100, 400), 30));
         }
     }
 
@@ -58,7 +57,6 @@ class gameManager{
       this.deathSound.play();
     }
 
-    // call when player reaches certin score 
     spawnSaucer(){
         this.saucerSound.play();
         this.soundPlaying = true;
@@ -79,7 +77,6 @@ class gameManager{
         if(this.asteroidList.length <= 0 && !this.reset){
             this.currentAmountOfAsteroids = this.currentAmountOfAsteroids + 2;
             this.level++;
-            console.log(this.level);
             this.startLevel(this.currentAmountOfAsteroids);
             this.activeSauce = false;
         }
@@ -97,11 +94,5 @@ class gameManager{
         this.startLevel(4);
         this.reset = false;
     }
-
-    
-    playSound(sound){
-      sound.play();
-    }
-
 }
 
