@@ -22,9 +22,9 @@ let boostSound;
 let hyperDrive;
 let playerShoot;
 let enemySaucerSound;
-// let maxAngle = 40;
-// let maxOffset = 10;
-// let shake = 15;
+let maxAngle = 40;
+let maxOffset = 10;
+let shake = 0;
 let restart;
 let startButton;
 let clickedRestart = false;
@@ -56,13 +56,16 @@ function setup() {
   restart = createButton("restart");
   restart.mousePressed(restartPlayer);
   restart.size(100, 30);
-  slider = createSlider(0, 10);
-  slider.position(50, 450)
-  //text("Volume:", 0, 450)
+
+  backgroundMusic.setVolume(0.1);
 }
 
 function draw() {
-  backgroundMusic.setVolume(slider.value()/15);
+  
+  let OffSetX = random(-shake, shake);
+  let offSetY = random(-shake, shake);
+
+  translate(OffSetX, offSetY);
 
   if(!startScreen && !gameOver){
     background(0);
@@ -74,7 +77,6 @@ function draw() {
     player1.playerDisplay();
     displayManager1.updateScore(0);
     moveAsteroids();
-    
     
     if(displayManager1.canSpawnSaucer() && !gameManager1.activeSaucer && !levelSaucer){
       levelSaucer = true;
@@ -107,9 +109,10 @@ function draw() {
     }
     else{
       if(checkCollision(player1)){
-          player1.RemoveHealth();
-          player1.resetLocation();
-          player1.invincible = true;
+        cameraShake();
+        player1.RemoveHealth();
+        player1.resetLocation();
+        player1.invincible = true;
       }
     }
 
@@ -131,6 +134,8 @@ function draw() {
       backgroundMusic.stop();
 
   }
+
+  shake *= 0.9;
 
 }
 
@@ -231,6 +236,7 @@ function bulletController(){
     
 
     if(checkCollision(gameManager1.bulletList[i]) && tempAsteroidDestroy != null){
+      
       if(gameManager1.asteroidList[tempAsteroidDestroy].size == 40){
         gameManager1.removeLargeAsteroid(tempAsteroidDestroy);
         displayManager1.addScore(20);
@@ -262,6 +268,7 @@ function saucerBulletController(){
     }
 
    if(checkSaucerBulletCollision(gameManager1.bulletListSaucer[i])){
+      
       gameManager1.bulletListSaucer.splice(i, 1);
       player1.RemoveHealth();
       player1.resetLocation();
@@ -297,10 +304,8 @@ function moveSaucers(){
 }
 
 function cameraShake(){
-  let angle = maxAngle * shake * random(-1, 1);
-  let OffSetX = maxOffset * shake * random(-1, 1);
-  let offSetY = maxOffset * shake * random(-1, 1);
+  //let angle = maxAngle * shake * random(-1, 1);
+  shake = 10;
 
-  Camera.angle = Camera.angle + angle;
-  // camera.center = Camera.center + Vec2(offsetx, offestY)
+  
 }
