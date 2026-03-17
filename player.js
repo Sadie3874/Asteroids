@@ -16,6 +16,9 @@ class player extends baseCharacter{
     this.health = 3;
     this.coolDown = false;
     this.invincible = false;
+    this.boostSound = loadSound("/Asteroids/Audio/Boost.mp3");
+    this.hyperDrive = loadSound("/Asteroids/Audio/HyperDriveJump.mp3");
+    this.deathSound = loadSound("/Asteroids/Audio/Explosion.mp3");
   }
   
   processInput(){
@@ -50,6 +53,7 @@ class player extends baseCharacter{
     }
 
     if(keyIsDown(ENTER) && this.coolDown == false){
+      this.hyperDrive.play();
       this.boost();
       this.coolDown = true;
     }
@@ -98,9 +102,8 @@ class player extends baseCharacter{
   // remove player heath. 
   RemoveHealth(){
     this.health--;
-
+    this.deathSound.play();
     if(this.health <= 0){
-        console.log("Game Over");
         gameOver = true;
     }
   }

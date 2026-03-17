@@ -11,57 +11,59 @@
 // Overall, I enjoyed this project a lot more than I thought I would. At first the work seemed overwhelming and paralyzing, 
 // but it slowly grew into a project that I was happy to work on throughout the week. 
 
+// objects
 let gameManager1;
 let player1;
 let tempAsteroidDestroy;
-let startScreen = true;
-let gameOver = false;
-let levelSaucer = false;
+let restart;
+let startButton;
+
+// music 
 let backgroundMusic;
 let boostSound;
 let hyperDrive;
 let playerShoot;
 let enemySaucerSound;
-let maxAngle = 40;
-let maxOffset = 10;
-let shake = 0;
-let restart;
-let startButton;
-let clickedRestart = false;
-let slider;
 
+// bools 
 let enterClicked = false;
+let startScreen = true;
+let gameOver = false;
+let levelSaucer = false;
+
+// var
+let shake = 0;
 
 function preload(){
-  backgroundMusic = loadSound("/Asteroids/Audio/BackgroundMusic.mp3");
-  boostSound = loadSound("/Asteroids/Audio/Boost.mp3");
-  hyperDrive = loadSound("/Asteroids/Audio/HyperDriveJump.mp3");
-  playerShoot = loadSound("/Asteroids/Audio/PlayerShoot.mp3");
-  enemySaucerSound = loadSound("/Asteroids/Audio/SaucerPresent.mp3");
+  // preloading sound
+  backgroundMusic = loadSound("/Asteroids/Audio/BackgroundMusic.mp3");  
 }
 
 function setup() {
   createCanvas(400, 400);
+  // creating our classes 
   player1 = new player(200, 200);
   gameManager1 = new gameManager();
-  gameManager1.startLevel(4);
   displayManager1 = new displayManager(player1);
+  gameManager1.startLevel(4);
 
+  // start button
   startButton = createButton("Start");
   startButton.position(width/2 - 50, width/2 + 30);
   startButton.size(100, 30);
   startButton.mouseClicked(startGame);
 
-  
+  // reset button will always display
   restart = createButton("restart");
   restart.mousePressed(restartPlayer);
   restart.size(100, 30);
 
+  // setting music
   backgroundMusic.setVolume(0.1);
 }
 
 function draw() {
-  
+  // screen shake, when we call screen shake function shake will become 10 and then decrease to 0 again
   let OffSetX = random(-shake, shake);
   let offSetY = random(-shake, shake);
 
@@ -97,7 +99,7 @@ function draw() {
       enterClicked = false;
       player1.knockback = true;
       gameManager1.spawnBullet(player1.position.x, player1.position.y, player1.angle, 5);
-
+      
     }
 
     if(gameManager1.bulletList.length > 0){
@@ -110,6 +112,7 @@ function draw() {
     else{
       if(checkCollision(player1)){
         cameraShake();
+        
         player1.RemoveHealth();
         player1.resetLocation();
         player1.invincible = true;
@@ -130,7 +133,6 @@ function draw() {
 
   if(gameOver){
       displayManager1.displayEndScreen();
-      clickedRestart = true;
       backgroundMusic.stop();
 
   }
@@ -143,7 +145,6 @@ function restartPlayer(){
   if(player.invincible){
     invincible = false;
   }
-  clickedRestart = false;
   backgroundMusic.loop();
   player1.health = 3;
   displayManager1.score = 0;
@@ -162,7 +163,7 @@ function mouseClicked(){
   backgroundMusic.loop();
 }
 
-// change vars 
+// checking for overlap
 function CheckCircleCircleCollision(c1x, c1y, c1r, c2x, c2y, c2r) {
   let distX = c1x - c2x;
   let distY = c1y - c2y;
@@ -200,7 +201,6 @@ function checkCollisionSaucer(object){
 
 function checkSaucerBulletCollision(object){
   if(CheckCircleCircleCollision(object.position.x, object.position.y, object.size/2, player1.position.x, player1.position.y, player1.size/2)){
-    console.log("Hit player");
     return true;
   }
 }
@@ -304,8 +304,5 @@ function moveSaucers(){
 }
 
 function cameraShake(){
-  //let angle = maxAngle * shake * random(-1, 1);
   shake = 10;
-
-  
 }
