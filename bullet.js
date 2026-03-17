@@ -1,13 +1,15 @@
 class bullet extends baseCharacter{
     constructor(x, y, angle){
         super(x, y, 5);
+        // var
         this.angle = angle;
+        // int 
         this.speed = 5;
         this.liveCount = 150;
         this.damage = 1;
-        //this.img = img;
     }
 
+    // move the bullet in the direction it was fired 
     movement(){
         this.velocity = p5.Vector.fromAngle(this.angle);
         this.velocity.mult(this.speed);
@@ -15,10 +17,12 @@ class bullet extends baseCharacter{
         this.screenWrap();
     }
 
+    // just spawning the circle 
     spawnBullet(){
         circle(this.position.x, this.position.y, this.size);
     }
 
+    // life spawn count 
     lifeSpan(){
         this.liveCount--;
         if(this.liveCount <= 0){
@@ -28,6 +32,4 @@ class bullet extends baseCharacter{
             return false;
         }
     }
-
-    // add collisions 
 }

@@ -71,7 +71,7 @@ function draw() {
 
   if(!startScreen && !gameOver){
     background(0);
-
+    // processing player movement, display and score. along with checking if we need to move onto the next level
     startButton.remove();
     gameManager1.nextLevel();
     player1.processInput();
@@ -81,24 +81,23 @@ function draw() {
     moveAsteroids();
     displayHealth(player1.health);
     
-    // && !gameManager1.activeSaucer 
+    // checking the if the saucer has already spawned 
     if(displayManager1.canSpawnSaucer() && !levelSaucer){
       levelSaucer = true;
       gameManager1.spawnSaucer();
     }
-    else{
-      console.log("cant spawn")
-    }
     
+    // moving the active saucer 
     if(gameManager1.activeSaucer){
       gameManager1.currentSaucer.movement();
       saucerBulletController();
     }
 
+    // space bar to shoot 
     if(keyIsDown(32)){
       fireRateTimer();
     }
-
+    // check cool down on fire rate
     if(canFire){
       canFire = false;
       player1.knockback = true;
@@ -109,6 +108,7 @@ function draw() {
       bulletController();
     }
 
+    // if players not invincible then check collisions 
     if(player1.invincible){
       invinciblePlayerTimer();
     }
@@ -121,54 +121,55 @@ function draw() {
       }
     }
 
+    // if saucer is present check its collisions 
     if(gameManager1.activeSaucer){
       if(checkCollisionSaucerToAsteroid(gameManager1.currentSaucer)){
-        
         gameManager1.removeSaucer();
       }
     }
   }
   else{
     displayManager1.displayStartScreen();
-    
   }
 
+  // display the game over screen if player dies 
   if(gameOver){
-      displayManager1.displayEndScreen();
-      backgroundMusic.stop();
+    displayManager1.displayEndScreen();
+    backgroundMusic.stop();
   }
 
+  // control the screen shake 
   shake *= 0.9;
 }
 
-
+// fire rate timer, to prevent infinite shooting 
 function fireRateTimer(){
     if(frameCount % 10 == 0){
       canFire = true;
     }
 }
 
+// restrat the players position, score, health, location and asteroids 
 function restartPlayer(){
-  if(player.invincible){
-    invincible = false;
-  }
-
-  backgroundMusic.loop();
-  levelSaucer = false;
   player1.health = 3;
   displayManager1.score = 0;
+  // reset background music, asteroids will also respawn
+  backgroundMusic.loop();
   player1.resetLocation();
   gameManager1.resetAsteroids();
 
+  levelSaucer = false;
+  // game over is now false since restart 
   if(gameOver){
     gameOver = false;
   }
 }
 
+// display start screen 
 function startGame(){
   startScreen = false;
 }
-
+// loop music 
 function mouseClicked(){
   backgroundMusic.loop();
 }
@@ -185,6 +186,7 @@ function CheckCircleCircleCollision(c1x, c1y, c1r, c2x, c2y, c2r) {
   return false;
 }
 
+// checking asteroids and objects positions to see if they have collided 
 function checkCollision(object){
   for(let i = 0; i < gameManager1.asteroidList.length; i++){
     if(CheckCircleCircleCollision(object.position.x, object.position.y, object.size/2, gameManager1.asteroidList[i].position.x, gameManager1.asteroidList[i].position.y, gameManager1.asteroidList[i].size/2)){
@@ -194,7 +196,7 @@ function checkCollision(object){
   }
 }
 
-
+// checking saucer and asteroid collisions 
 function checkCollisionSaucerToAsteroid(){
   for(let i = 0; i < gameManager1.asteroidList.length; i++){
     if(CheckCircleCircleCollision(gameManager1.currentSaucer.currentPosition, 70, gameManager1.currentSaucer.size/2, gameManager1.asteroidList[i].position.x, gameManager1.asteroidList[i].position.y, gameManager1.asteroidList[i].size/2)){
@@ -202,30 +204,33 @@ function checkCollisionSaucerToAsteroid(){
     }
   }
 }
-
+// checking and objects and saucer position for collisions 
 function checkCollisionSaucer(object){
   if(CheckCircleCircleCollision(object.position.x, object.position.y, object.size/2, gameManager1.currentSaucer.currentPosition, 70, gameManager1.currentSaucer.size/2)){
     return true;
   }
 }
 
+// checking saucer and bullets 
 function checkSaucerBulletCollision(object){
   if(CheckCircleCircleCollision(object.position.x, object.position.y, object.size/2, player1.position.x, player1.position.y, player1.size/2)){
     return true;
   }
 }
 
+// player invincible timer 
 function invinciblePlayerTimer(){
-    if(frameCount % 240 == 0){
-      player1.invincible = false;
-    }
+  if(frameCount % 240 == 0){
+    player1.invincible = false;
+  }
 }
 
-
+// display player life 
 function displayHealth(){
     displayManager1.displayPlayerLives(player1.health);
 }
 
+// function that controls the bullet movement, collisions, and lifespan. 
 function bulletController(){
   for(let i = 0; i < gameManager1.bulletList.length; i++){
     gameManager1.bulletList[i].movement();
@@ -237,6 +242,7 @@ function bulletController(){
       break;
     }
 
+    // checking bullet and saucer positions 
     if(gameManager1.activeSaucer){
       if(checkCollisionSaucer(gameManager1.bulletList[i])){
         gameManager1.removeSaucer();
@@ -244,7 +250,8 @@ function bulletController(){
       }
     }
     
-
+    // checking bullet and asteroid collisions and then calling game manager to spawn the next asteroid 
+    // and update score 
     if(checkCollision(gameManager1.bulletList[i]) && tempAsteroidDestroy != null){
       
       if(gameManager1.asteroidList[tempAsteroidDestroy].size == 40){
@@ -266,6 +273,7 @@ function bulletController(){
   }
 }
 
+// function that controls the saucers bullets movement, collision and life span
 function saucerBulletController(){
   for(let i = 0; i < gameManager1.bulletListSaucer.length; i++){
     gameManager1.bulletListSaucer[i].movement();
@@ -278,7 +286,6 @@ function saucerBulletController(){
     }
 
    if(checkSaucerBulletCollision(gameManager1.bulletListSaucer[i])){
-      
       gameManager1.bulletListSaucer.splice(i, 1);
       player1.RemoveHealth();
       player1.resetLocation();
@@ -286,6 +293,8 @@ function saucerBulletController(){
       break;
    }
 
+    // checking bullet and asteroid collisions and then calling game manager to spawn the next asteroid 
+    // and update score 
    if(checkCollision(gameManager1.bulletListSaucer[i]) && tempAsteroidDestroy != null){
      if(gameManager1.asteroidList[tempAsteroidDestroy].size == 40){
        gameManager1.removeLargeAsteroid(tempAsteroidDestroy);
@@ -302,13 +311,14 @@ function saucerBulletController(){
   }
 }
 
+// moving the asteroids 
 function moveAsteroids(){
   for(let i = 0; i < gameManager1.asteroidList.length; i++){
     gameManager1.asteroidList[i].spawnAsteroid();
     gameManager1.asteroidList[i].asteroidMovement();
   }
 }
-
+// camera shake. When hit the shake will get changed to 10 
 function cameraShake(){
   shake = 10;
 }

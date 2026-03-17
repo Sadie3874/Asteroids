@@ -5,10 +5,8 @@ class smallAsteroid extends asteroid{
         this.size = 15;
     }
 
+    // small asteroids will move faster 
     movement(){
-        this.velocity = p5.Vector.fromAngle(this.direction);
         this.velocity.mult(this.speed * 10);
-        this.position.add(this.velocity);
-        this.screenWrap();
     }
 }

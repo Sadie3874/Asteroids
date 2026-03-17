@@ -1,14 +1,16 @@
 class baseCharacter {
     constructor(x, y, size){
-        this.size = size;
-        this.angle = 0;
-        this.speed = 0.5;
-        this.position = createVector(x, y);
-        this.velocity = createVector(0, 0);
-        //this.img = img;
-        
+      // var
+      this.size = size;
+      // ints
+      this.angle = 0;
+      this.speed = 0.5;
+      // vectors
+      this.position = createVector(x, y);
+      this.velocity = createVector(0, 0);
     } 
 
+    // screen wrap the object 
     screenWrap(){
       if(this.position.x >= 400){
         this.position.x = 0

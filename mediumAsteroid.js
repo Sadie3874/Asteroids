@@ -1,14 +1,13 @@
 class mediumAsteroid extends asteroid{
     constructor(x, y){
         super(x, y, 15);
+        // respecfive points and size 
         this.points = 50;
         this.size = 30;
     }
 
+    // update the speed of the medium asteroids
     movement(){
-        this.velocity = p5.Vector.fromAngle(this.direction);
         this.velocity.mult(this.speed * 1.5);
-        this.position.add(this.velocity);
-        this.screenWrap();
     }
 }

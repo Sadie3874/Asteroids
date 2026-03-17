@@ -2,37 +2,40 @@ class displayManager{
     constructor(player1){
         this.score = 0;
         this.player1 = player1;
+        
     }
 
+    // update the score 
     updateScore(){
         textSize(20);
         fill(255)
         text("Score: " + this.score, 300, 30);
     }
 
+    // add to the score 
     addScore(value){
         this.score += value;
-
-        if(this.score >= 1000 && this.player1.health < 3){
+        // if player reaches certin amount of points increase
+        if(this.score % 240 == 0 && this.player1.health < 3){
             this.player1.health++;
         }
     }
 
+    // checking score to see if we can spawn a saucer 
     canSpawnSaucer(){
-        // fix this, have it for every 1000 points 
-        console.log(this.score % 100);
         if(this.score % 100 == 50){
-            console.log("Spawn saucer");
             return true;
         }
     }
 
+    // display the players lives
     displayPlayerLives(playerLives){
         for(let i = 0; i < playerLives; i++){
             triangle(20 + (i * 20), 20, 10 + (i * 20), 30, 30 + (i * 20), 30);
         }
     }
 
+    // display start screen 
     displayStartScreen(){
         push();
             background(0);
@@ -42,6 +45,7 @@ class displayManager{
         pop();
     }
 
+    // display start screen 
     displayEndScreen(){
         push();
             background(0);

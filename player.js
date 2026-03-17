@@ -3,19 +3,24 @@ class player extends baseCharacter{
   //, img, imgBoost
   constructor(x, y){
     super(x, y, 20);
-    this.x = x;
-    this.y = y;
-    this.size = 20;
-    this.angle = 0;
+    // vectors 
     this.impulse = createVector(0, 0);
     this.acceleration = createVector(0,0);
+    // var
+    this.x = x;
+    this.y = y;
+    // ints
+    this.size = 20;
+    this.angle = 0;
     this.drag = 0.9;
     this.knockbackForce = -10;
-    this.knockback = false;
-    this.movementPlayer = false;
     this.health = 3;
+    // bool 
     this.coolDown = false;
     this.invincible = false;
+    this.knockback = false;
+    this.movementPlayer = false;
+    // sound
     this.boostSound = loadSound("/Asteroids/Audio/Boost.mp3");
     this.hyperDrive = loadSound("/Asteroids/Audio/HyperDriveJump.mp3");
     this.deathSound = loadSound("/Asteroids/Audio/Explosion.mp3");
@@ -24,15 +29,14 @@ class player extends baseCharacter{
   processInput(){
     this.velocity.mult(this.drag); 
     this.position.add(this.velocity);
-
-    if(this.knockback == true){
+    // knock back foce 
+    if(this.knockback){
       this.impulse = p5.Vector.fromAngle(this.angle);
       this.velocity.add(this.impulse.x * -3, this.impulse.y * -3);
       this.knockback = false;
     }
-
+    // keyboard controls 
     if(keyIsDown(RIGHT_ARROW)){
-      // rotate the object in the direction we want it to face 
       this.angle += 0.1;
     }
     
@@ -48,11 +52,10 @@ class player extends baseCharacter{
     }
 
     if(this.movementPlayer){
-      
       this.movement();
     }
 
-    if(keyIsDown(ENTER) && this.coolDown == false){
+    if(keyIsDown(ENTER) && !this.coolDown){
       this.hyperDrive.play();
       this.boost();
       this.coolDown = true;
@@ -64,8 +67,8 @@ class player extends baseCharacter{
   }
 
   playerBoostTimer(){
+    // player cool down
     if(frameCount % 240 == 0){
-      console.log("Cool down is done ");
       this.coolDown = false;
     }
   }
@@ -86,15 +89,15 @@ class player extends baseCharacter{
       rotate(this.angle)
       // moving our rotate point to the center of our object 
       rectMode(CENTER)
-      // displaying the triangle
-      if(this.invincible == true){
+      // displaying the players invincible power up 
+      if(this.invincible){
         fill(0, 255, 0);
       }
       else{
         fill(255);
       }
+      // display the triangle
       triangle(this.size/2, 0, -this.size/2, this.size/2, -this.size/2, -this.size/2);
-      //rect(0, 0, this.size, this.size);
     pop()
   
   }
