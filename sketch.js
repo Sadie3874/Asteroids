@@ -26,7 +26,7 @@ let playerShoot;
 let enemySaucerSound;
 
 // bools 
-let enterClicked = false;
+let canFire = false;
 let startScreen = true;
 let gameOver = false;
 let levelSaucer = false;
@@ -71,35 +71,38 @@ function draw() {
 
   if(!startScreen && !gameOver){
     background(0);
+
     startButton.remove();
-    
     gameManager1.nextLevel();
-    displayHealth(player1.health);
     player1.processInput();
     player1.playerDisplay();
     displayManager1.updateScore(0);
+
     moveAsteroids();
+    displayHealth(player1.health);
     
-    if(displayManager1.canSpawnSaucer() && !gameManager1.activeSaucer && !levelSaucer){
+    // && !gameManager1.activeSaucer 
+    if(displayManager1.canSpawnSaucer() && !levelSaucer){
       levelSaucer = true;
       gameManager1.spawnSaucer();
-      
+    }
+    else{
+      console.log("cant spawn")
     }
     
     if(gameManager1.activeSaucer){
-      moveSaucers();
+      gameManager1.currentSaucer.movement();
       saucerBulletController();
     }
 
     if(keyIsDown(32)){
-      enterClicked = true;
+      fireRateTimer();
     }
 
-    if(!keyIsPressed && enterClicked){
-      enterClicked = false;
+    if(canFire){
+      canFire = false;
       player1.knockback = true;
-      gameManager1.spawnBullet(player1.position.x, player1.position.y, player1.angle, 5);
-      
+      gameManager1.spawnBullet(player1.position.x, player1.position.y, player1.angle, 5); 
     }
 
     if(gameManager1.bulletList.length > 0){
@@ -133,22 +136,30 @@ function draw() {
   if(gameOver){
       displayManager1.displayEndScreen();
       backgroundMusic.stop();
-
   }
 
   shake *= 0.9;
+}
 
+
+function fireRateTimer(){
+    if(frameCount % 10 == 0){
+      canFire = true;
+    }
 }
 
 function restartPlayer(){
   if(player.invincible){
     invincible = false;
   }
+
   backgroundMusic.loop();
+  levelSaucer = false;
   player1.health = 3;
   displayManager1.score = 0;
   player1.resetLocation();
   gameManager1.resetAsteroids();
+
   if(gameOver){
     gameOver = false;
   }
@@ -296,10 +307,6 @@ function moveAsteroids(){
     gameManager1.asteroidList[i].spawnAsteroid();
     gameManager1.asteroidList[i].asteroidMovement();
   }
-}
-
-function moveSaucers(){
-  gameManager1.currentSaucer.movement();
 }
 
 function cameraShake(){

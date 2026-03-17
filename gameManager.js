@@ -78,7 +78,7 @@ class gameManager{
             this.currentAmountOfAsteroids = this.currentAmountOfAsteroids + 2;
             this.level++;
             this.startLevel(this.currentAmountOfAsteroids);
-            this.activeSauce = false;
+            this.activeSaucer = false;
         }
     }
 

@@ -20,7 +20,9 @@ class displayManager{
 
     canSpawnSaucer(){
         // fix this, have it for every 1000 points 
-        if(this.score >= 1000){
+        console.log(this.score % 100);
+        if(this.score % 100 == 50){
+            console.log("Spawn saucer");
             return true;
         }
     }
