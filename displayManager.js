@@ -9,7 +9,7 @@ class displayManager{
     updateScore(){
         textSize(25);
         fill(255)
-        text("Score: " + this.score, width - 100, height/9);
+        text("Score: " + this.score, width - 150, height/9);
     }
 
     // add to the score 
@@ -23,7 +23,7 @@ class displayManager{
 
     // checking score to see if we can spawn a saucer 
     canSpawnSaucer(){
-        if(this.score % 10 == 0){
+        if(this.score % 240 == 0){
             return true;
         }
     }
