@@ -113,14 +113,14 @@ class player extends baseCharacter{
 
   // teleport the player to a new location 
   boost(){
-    let randomX = random(0, 200);
-    let randomY = random(0, 200);
+    let randomX = random(0, width);
+    let randomY = random(0, height);
     this.position = createVector(randomX, randomY);
   }
 
   // upon death, move the player to the middle of the screen. 
   resetLocation(){
-    this.position = createVector(200, 200);
+    this.position = createVector(width/2, height/2);
   }
 
 }

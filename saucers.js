@@ -22,9 +22,9 @@ class saucers extends baseCharacter{
         // moving left and right without using vectors 
         push()
             fill(255, 0, 0);
-            circle(this.currentPosition, 60, 30);
-            ellipse(this.currentPosition, 60, 70, 10);
-            translate(this.currentPosition, 70);
+            circle(this.currentPosition, height/4, 30);
+            ellipse(this.currentPosition, height/4, 70, 10);
+            translate(this.currentPosition, height/4);
         pop()
         // checking if the saucer is about to go off screen 
         if(this.currentPosition >= width){
@@ -41,7 +41,7 @@ class saucers extends baseCharacter{
     fireBullet(){
         this.fireTimer--;
         if(this.fireTimer <= 0){
-            gameManager1.spawnSaucerBullet(this.currentPosition + 5, 70, HALF_PI, 5);
+            gameManager1.spawnSaucerBullet(this.currentPosition + 5, height/4, HALF_PI, 5);
             this.fireTimer = 150;
         }
     }

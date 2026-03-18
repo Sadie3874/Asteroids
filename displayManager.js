@@ -7,9 +7,9 @@ class displayManager{
 
     // update the score 
     updateScore(){
-        textSize(20);
+        textSize(25);
         fill(255)
-        text("Score: " + this.score, 300, 30);
+        text("Score: " + this.score, width - 100, height/9);
     }
 
     // add to the score 
@@ -31,7 +31,7 @@ class displayManager{
     // display the players lives
     displayPlayerLives(playerLives){
         for(let i = 0; i < playerLives; i++){
-            triangle(20 + (i * 20), 20, 10 + (i * 20), 30, 30 + (i * 20), 30);
+            triangle(50 + (i * 50), 50, 30 + (i * 50), 70, 70 + (i * 50), 70);
         }
     }
 
@@ -41,7 +41,7 @@ class displayManager{
             background(0);
             textSize(45);
             fill(255);
-            text("Asteroids", 100, 200);
+            text("Asteroids", width/3, height/2);
         pop();
     }
 

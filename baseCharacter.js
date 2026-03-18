@@ -12,18 +12,18 @@ class baseCharacter {
 
     // screen wrap the object 
     screenWrap(){
-      if(this.position.x >= 400){
+      if(this.position.x >= width){
         this.position.x = 0
       }
       else if(this.position.x <= 0){
-        this.position.x = 400
+        this.position.x = width
       }
 
-      if(this.position.y >= 400){
+      if(this.position.y >= height){
         this.position.y = 0
       }
       else if(this.position.y <= 0){
-        this.position.y = 400
+        this.position.y = height
       }
     }
 }

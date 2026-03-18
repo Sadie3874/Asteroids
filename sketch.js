@@ -40,9 +40,9 @@ function preload(){
 }
 
 function setup() {
-  createCanvas(400, 400);
+  createCanvas(600, 600);
   // creating our classes 
-  player1 = new player(200, 200);
+  player1 = new player(width/2, height/2);
   gameManager1 = new gameManager();
   displayManager1 = new displayManager(player1);
   gameManager1.startLevel(4);
@@ -79,7 +79,7 @@ function draw() {
     player1.playerDisplay();
     displayManager1.updateScore(0);
 
-    moveAsteroids();
+    gameManager1.moveAsteroids();
     displayHealth(player1.health);
     
     // checking the if the saucer has already spawned 
@@ -207,7 +207,7 @@ function checkCollision(object){
 // checking saucer and asteroid collisions 
 function checkCollisionSaucerToAsteroid(){
   for(let i = 0; i < gameManager1.asteroidList.length; i++){
-    if(CheckCircleCircleCollision(gameManager1.currentSaucer.currentPosition, 70, gameManager1.currentSaucer.size/2, gameManager1.asteroidList[i].position.x, gameManager1.asteroidList[i].position.y, gameManager1.asteroidList[i].size/2)){
+    if(CheckCircleCircleCollision(gameManager1.currentSaucer.currentPosition, height/4, gameManager1.currentSaucer.size, gameManager1.asteroidList[i].position.x, gameManager1.asteroidList[i].position.y, gameManager1.asteroidList[i].size/2)){
       tempAsteroidDestroy = i;
       return true;
     }
@@ -215,7 +215,8 @@ function checkCollisionSaucerToAsteroid(){
 }
 // checking and objects and saucer position for collisions 
 function checkCollisionSaucer(object){
-  if(CheckCircleCircleCollision(object.position.x, object.position.y, object.size/2, gameManager1.currentSaucer.currentPosition, 70, gameManager1.currentSaucer.size/2)){
+  
+  if(CheckCircleCircleCollision(object.position.x, object.position.y, object.size/2, gameManager1.currentSaucer.currentPosition, height/4, gameManager1.currentSaucer.size/2)){
     return true;
   }
 }
@@ -248,6 +249,7 @@ function bulletController(){
     // checking bullet and saucer positions 
     if(gameManager1.activeSaucer){
       if(checkCollisionSaucer(gameManager1.bulletList[i])){
+        gameManager1.spawnParticalsSaucerDeath();
         gameManager1.removeSaucer();
         displayManager1.addScore(200);
       }
@@ -284,7 +286,7 @@ function saucerBulletController(){
     }
 
    if(checkSaucerBulletCollision(gameManager1.bulletListSaucer[i])){
-      gameManager1.spawnParticals(tempAsteroidDestroy);
+      gameManager1.spawnParticalsPlayerDeath(tempAsteroidDestroy);
       gameManager1.bulletListSaucer.splice(i, 1);
       player1.RemoveHealth();
       player1.resetLocation();
@@ -312,13 +314,6 @@ function saucerBulletController(){
   }
 }
 
-// moving the asteroids 
-function moveAsteroids(){
-  for(let i = 0; i < gameManager1.asteroidList.length; i++){
-    gameManager1.asteroidList[i].spawnAsteroid();
-    gameManager1.asteroidList[i].asteroidMovement();
-  }
-}
 // camera shake. When hit the shake will get changed to 10 
 function cameraShake(){
   shake = 10;

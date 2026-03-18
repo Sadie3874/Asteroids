@@ -35,7 +35,7 @@ class gameManager{
     startLevel(amountOfAsteroids){
         // after each level spawn a certin amount of large asteroids
         for(let i = 0; i < amountOfAsteroids; i++){
-            this.asteroidList.push(new asteroid(random(100, 400), random(100, 400), 30));
+            this.asteroidList.push(new asteroid(random(0, width), random(0, height), 30));
         }
     }
 
@@ -78,6 +78,14 @@ class gameManager{
         this.bulletListSaucer.push(new bullet(x + 5, y + 5, angle, speed));
     }
 
+    // moving the asteroids 
+    moveAsteroids(){
+        for(let i = 0; i < this.asteroidList.length; i++){
+          this.asteroidList[i].spawnAsteroid();
+          this.asteroidList[i].asteroidMovement();
+        }
+    }
+
     // remove the large asteroids and spawn medium ones and play sound
     removeLargeAsteroid(tempAsteroidDestroy){
       this.spawnMediumAsteroid(tempAsteroidDestroy);
@@ -101,7 +109,7 @@ class gameManager{
     spawnSaucer(){
         this.saucerSound.play();
         this.soundPlaying = true;
-        this.currentSaucer = new saucers(0, 70);
+        this.currentSaucer = new saucers(0, 0);
         this.activeSaucer = true;
     }
 
@@ -119,6 +127,20 @@ class gameManager{
         let randomAmount = random(10, 20);
         for(let i = 0; i < randomAmount; i++){
             this.particals.push(new particalSystem(this.asteroidList[tempAsteroidDestory].position.x, this.asteroidList[tempAsteroidDestory].position.y));
+        }
+    }
+
+    spawnParticalsSaucerDeath(){
+        let randomAmount = random(10, 20);
+        for(let i = 0; i < randomAmount; i++){
+            this.particals.push(new particalSystem(this.currentSaucer.currentPosition, height/4));
+        }
+    }
+
+    spawnParticalsPlayerDeath(x, y){
+        let randomAmount = random(10, 20);
+        for(let i = 0; i < randomAmount; i++){
+            this.particals.push(new particalSystem(width/2, height/2));
         }
     }
 
