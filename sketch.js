@@ -115,6 +115,7 @@ function draw() {
     else{
       if(checkCollision(player1)){
         cameraShake();
+        gameManager1.spawnParticals(tempAsteroidDestroy);
         player1.RemoveHealth();
         player1.resetLocation();
         player1.invincible = true;
@@ -126,6 +127,11 @@ function draw() {
       if(checkCollisionSaucerToAsteroid(gameManager1.currentSaucer)){
         gameManager1.removeSaucer();
       }
+    }
+
+    if(gameManager1.particals.length > 0){
+      
+      gameManager1.checkLife();
     }
   }
   else{
@@ -253,7 +259,7 @@ function bulletController(){
     // checking bullet and asteroid collisions and then calling game manager to spawn the next asteroid 
     // and update score 
     if(checkCollision(gameManager1.bulletList[i]) && tempAsteroidDestroy != null){
-      
+      gameManager1.spawnParticals(tempAsteroidDestroy);
       if(gameManager1.asteroidList[tempAsteroidDestroy].size == 40){
         gameManager1.removeLargeAsteroid(tempAsteroidDestroy);
         displayManager1.addScore(20);

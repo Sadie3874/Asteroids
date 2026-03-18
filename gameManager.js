@@ -4,6 +4,7 @@ class gameManager{
         this.asteroidList = [];
         this.bulletList = [];
         this.bulletListSaucer = [];
+        this.particals = [];
         // bools
         this.activeSaucer = false;
         this.reset = false;
@@ -85,6 +86,28 @@ class gameManager{
         }
         this.currentSaucer;
         this.activeSaucer = false;
+    }
+
+    spawnParticals(tempAsteroidDestory){
+        let randomAmount = random(10, 20);
+        for(let i = 0; i < randomAmount; i++){
+            this.particals.push(new particalSystem(this.asteroidList[tempAsteroidDestory].position.x, this.asteroidList[tempAsteroidDestory].position.y));
+        }
+    }
+
+    checkLife(){
+        for(let i = 0; i < this.particals.length; i++){
+        //     this.particals[i].spawn();
+            this.particals[i].movement();
+
+            if(this.particals[i].checkLife()){
+                this.removeParticals(this.particals[i])
+            }
+        }
+    }
+
+    removeParticals(removePartical){
+        this.particals.splice(removePartical, 1);
     }
 
     // increase the asteroids for next level and set saucer spawn to false
