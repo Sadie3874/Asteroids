@@ -23,7 +23,7 @@ class displayManager{
 
     // checking score to see if we can spawn a saucer 
     canSpawnSaucer(){
-        if(this.score % 100 == 50){
+        if(this.score % 10 == 0){
             return true;
         }
     }

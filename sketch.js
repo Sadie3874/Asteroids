@@ -57,6 +57,7 @@ function setup() {
   restart = createButton("restart");
   restart.mousePressed(restartPlayer);
   restart.size(100, 30);
+  
 
   // setting music
   backgroundMusic.setVolume(0.1);
@@ -125,6 +126,7 @@ function draw() {
     // if saucer is present check its collisions 
     if(gameManager1.activeSaucer){
       if(checkCollisionSaucerToAsteroid(gameManager1.currentSaucer)){
+        gameManager1.spawnParticals(tempAsteroidDestroy);
         gameManager1.removeSaucer();
       }
     }
@@ -206,6 +208,7 @@ function checkCollision(object){
 function checkCollisionSaucerToAsteroid(){
   for(let i = 0; i < gameManager1.asteroidList.length; i++){
     if(CheckCircleCircleCollision(gameManager1.currentSaucer.currentPosition, 70, gameManager1.currentSaucer.size/2, gameManager1.asteroidList[i].position.x, gameManager1.asteroidList[i].position.y, gameManager1.asteroidList[i].size/2)){
+      tempAsteroidDestroy = i;
       return true;
     }
   }
@@ -239,15 +242,9 @@ function displayHealth(){
 // function that controls the bullet movement, collisions, and lifespan. 
 function bulletController(){
   for(let i = 0; i < gameManager1.bulletList.length; i++){
-    gameManager1.bulletList[i].movement();
-    gameManager1.bulletList[i].spawnBullet();
-    gameManager1.bulletList[i].lifeSpan();
-
-    if(gameManager1.bulletList[i].lifeSpan()){
-      gameManager1.bulletList.splice(i, 1);
+    if(gameManager1.checkBulletLifePlayer(i)){
       break;
     }
-
     // checking bullet and saucer positions 
     if(gameManager1.activeSaucer){
       if(checkCollisionSaucer(gameManager1.bulletList[i])){
@@ -282,16 +279,12 @@ function bulletController(){
 // function that controls the saucers bullets movement, collision and life span
 function saucerBulletController(){
   for(let i = 0; i < gameManager1.bulletListSaucer.length; i++){
-    gameManager1.bulletListSaucer[i].movement();
-    gameManager1.bulletListSaucer[i].spawnBullet();
-    gameManager1.bulletListSaucer[i].lifeSpan();
-
-    if(gameManager1.bulletListSaucer[i].lifeSpan()){
-      gameManager1.bulletListSaucer.splice(i, 1);
+    if(gameManager1.checkBulletLifeSaucer(i)){
       break;
     }
 
    if(checkSaucerBulletCollision(gameManager1.bulletListSaucer[i])){
+      gameManager1.spawnParticals(tempAsteroidDestroy);
       gameManager1.bulletListSaucer.splice(i, 1);
       player1.RemoveHealth();
       player1.resetLocation();
@@ -302,6 +295,8 @@ function saucerBulletController(){
     // checking bullet and asteroid collisions and then calling game manager to spawn the next asteroid 
     // and update score 
    if(checkCollision(gameManager1.bulletListSaucer[i]) && tempAsteroidDestroy != null){
+      gameManager1.spawnParticals(tempAsteroidDestroy);
+
      if(gameManager1.asteroidList[tempAsteroidDestroy].size == 40){
        gameManager1.removeLargeAsteroid(tempAsteroidDestroy);
      }

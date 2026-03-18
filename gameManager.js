@@ -45,6 +45,33 @@ class gameManager{
         this.bulletList.push(new bullet(x + 5, y + 5, angle, speed));
     }
 
+    checkBulletLifePlayer(index){
+        this.bulletList[index].movement();
+
+        if(this.bulletList[index].lifeSpan()){
+            this.removeBulletPlayer(this.bulletList[index]);
+            return true;
+        }
+    }
+
+    checkBulletLifeSaucer(index){
+        this.bulletListSaucer[index].movement();
+
+        if(this.bulletListSaucer[index].lifeSpan()){
+            this.removeBulletSaucer(this.bulletListSaucer[index]);
+            return true;
+        }
+    }
+
+    removeBulletPlayer(tempBullet){
+        this.bulletList.splice(tempBullet, 1);
+    }
+
+    removeBulletSaucer(tempBullet){
+        this.bulletListSaucer.splice(tempBullet, 1);
+    }
+
+
     // spawning saucer bullet this is seperate from the player bullets 
     spawnSaucerBullet(x, y, angle, speed){
         this.playerShoot.play();
