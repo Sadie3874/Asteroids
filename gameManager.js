@@ -1,5 +1,5 @@
 class gameManager{
-    constructor(){
+    constructor(saucerPresent, playerShoot, deathSound){
         // lists
         this.asteroidList = [];
         this.bulletList = [];
@@ -15,9 +15,9 @@ class gameManager{
         // var
         this.currentSaucer;
         // sound
-        this.saucerSound = loadSound("/Asteroids/Audio/SaucerPresent.mp3");
-        this.playerShoot = loadSound("/Asteroids/Audio/PlayerShoot.mp3");
-        this.deathSound = loadSound("/Asteroids/Audio/Explosion.mp3")
+        this.saucerSound = saucerPresent;
+        this.playerShoot = playerShoot;
+        this.deathSound = deathSound;
     }
 
     spawnMediumAsteroid(tempAsteroidDestroy){
