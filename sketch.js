@@ -37,12 +37,12 @@ let shake = 0;
 
 function preload(){
   // preloading sound
-  backgroundMusic = loadSound("/Audio/BackgroundMusic.mp3");  
-  enemySaucerSound = loadSound("/Audio/SaucerPresent.mp3");
-  playerShoot = loadSound("/Audio/PlayerShoot.mp3");
-  ExplosionSound = loadSound("/Audio/Explosion.mp3");
-  boost = loadSound("/Audio/Boost.mp3");
-  hyperDrive = loadSound("/Audio/HyperDriveJump.mp3");
+  backgroundMusic = loadSound("Audio/BackgroundMusic.mp3");  
+  enemySaucerSound = loadSound("Audio/SaucerPresent.mp3");
+  playerShoot = loadSound("Audio/PlayerShoot.mp3");
+  ExplosionSound = loadSound("Audio/Explosion.mp3");
+  boost = loadSound("Audio/Boost.mp3");
+  hyperDrive = loadSound("Audio/HyperDriveJump.mp3");
 }
 
 function setup() {
