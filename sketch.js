@@ -24,7 +24,8 @@ let ExplosionSound;
 let hyperDrive;
 let playerShoot;
 let enemySaucerSound;
-
+let boost;
+let deathSound;
 // bools 
 let canFire = false;
 let startScreen = true;
@@ -36,16 +37,18 @@ let shake = 0;
 
 function preload(){
   // preloading sound
-  backgroundMusic = loadSound("/Asteroids/Audio/BackgroundMusic.mp3");  
-  enemySaucerSound = loadSound("/Asteroids/Audio/SaucerPresent.mp3");
-  playerShoot = loadSound("/Asteroids/Audio/PlayerShoot.mp3");
-  ExplosionSound = loadSound("/Asteroids/Audio/Explosion.mp3");
+  backgroundMusic = loadSound("/Audio/BackgroundMusic.mp3");  
+  enemySaucerSound = loadSound("/Audio/SaucerPresent.mp3");
+  playerShoot = loadSound("/Audio/PlayerShoot.mp3");
+  ExplosionSound = loadSound("/Audio/Explosion.mp3");
+  boost = loadSound("/Audio/Boost.mp3");
+  hyperDrive = loadSound("/Audio/HyperDriveJump.mp3");
 }
 
 function setup() {
   createCanvas(600, 600);
   // creating our classes 
-  player1 = new player(width/2, height/2);
+  player1 = new player(width/2, height/2, boost, hyperDrive, ExplosionSound);
   gameManager1 = new gameManager(enemySaucerSound, playerShoot, ExplosionSound);
   displayManager1 = new displayManager(player1);
   gameManager1.startLevel(4);

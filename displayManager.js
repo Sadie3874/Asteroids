@@ -49,9 +49,9 @@ class displayManager{
     displayEndScreen(){
         push();
             background(0);
-            textSize(30);
+            textSize(45);
             fill(255);
-            text("Game Over", 120, 200);
+            text("Game Over", width/3, height/2);
         pop();
     }
     

@@ -1,7 +1,7 @@
 
 class player extends baseCharacter{
   //, img, imgBoost
-  constructor(x, y){
+  constructor(x, y, boost, hyperDrive, deathSound){
     super(x, y, 20);
     // vectors 
     this.impulse = createVector(0, 0);
@@ -21,9 +21,9 @@ class player extends baseCharacter{
     this.knockback = false;
     this.movementPlayer = false;
     // sound
-    this.boostSound = loadSound("/Asteroids/Audio/Boost.mp3");
-    this.hyperDrive = loadSound("/Asteroids/Audio/HyperDriveJump.mp3");
-    this.deathSound = loadSound("/Asteroids/Audio/Explosion.mp3");
+    this.boostSound = boost;
+    this.hyperDrive = hyperDrive;
+    this.deathSound = deathSound;
   }
   
   processInput(){
@@ -69,6 +69,7 @@ class player extends baseCharacter{
   playerBoostTimer(){
     // player cool down
     if(frameCount % 240 == 0){
+      
       this.coolDown = false;
     }
   }
