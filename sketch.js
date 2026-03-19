@@ -61,6 +61,7 @@ function setup() {
 
   // reset button will always display
   restart = createButton("restart");
+  restart.position(0, height - 40);
   restart.mousePressed(restartPlayer);
   restart.size(100, 30);
   
