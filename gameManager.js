@@ -150,7 +150,7 @@ class gameManager{
             this.particals[i].movement();
 
             if(this.particals[i].checkLife()){
-                this.removeParticals(this.particals[i])
+                this.removeParticals(this.particals[i]);
             }
         }
     }
@@ -172,12 +172,12 @@ class gameManager{
     resetAsteroids(){
         this.reset = true;
         for(let i = 0; i < this.asteroidList.length; i++){
-            this.asteroidList.splice(this.asteroidList[i])
+            this.asteroidList.splice(this.asteroidList[i]);
         }
         if(this.activeSaucer){
             this.removeSaucer();
         }
-        this.currentAmountOfAsteroids = 4
+        this.currentAmountOfAsteroids = 4;
         this.startLevel(4);
         this.reset = false;
     }
